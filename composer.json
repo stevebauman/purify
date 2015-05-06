@@ -1,0 +1,22 @@
+{
+    "name": "stevebauman/purify",
+    "description": "An HTML Purifier for Laravel 4 / 5",
+    "authors": [
+        {
+            "name": "Steve Bauman",
+            "email": "steven_bauman_7@hotmail.com"
+        }
+    ],
+    "license" : "MIT",
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.* | 5.*",
+        "ezyang/htmlpurifier": "4.6.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Stevebauman\\Purify": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
