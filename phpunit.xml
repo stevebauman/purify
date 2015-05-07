@@ -17,7 +17,6 @@
             </exclude>
         </whitelist>
     </filter>
-    </filter>
 
     <testsuites>
         <testsuite name="Purify Test Suite">
