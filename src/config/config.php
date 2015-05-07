@@ -5,6 +5,8 @@
  *
  * The configuration settings array is passed directly to HTMLPurifier.
  * Feel free to add / remove / customize these attributes as you wish.
+ *
+ * @documentation http://htmlpurifier.org/live/configdoc/plain.html
  */
 return [
 
