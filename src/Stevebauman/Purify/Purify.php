@@ -91,10 +91,14 @@ class Purify
      * the specified purifier object.
      *
      * @param HTMLPurifier $purifier
+     *
+     * @return $this
      */
     public function setPurifier(HTMLPurifier $purifier)
     {
         $this->purifier = $purifier;
+
+        return $this;
     }
 
     /**
@@ -111,10 +115,14 @@ class Purify
      * Sets the current purifiers configuration object.
      *
      * @param HTMLPurifier_Config $configuration
+     *
+     * @return $this
      */
     public function setPurifierConfig(HTMLPurifier_Config $configuration)
     {
         $this->config = $configuration;
+
+        return $this;
     }
 
     /**
