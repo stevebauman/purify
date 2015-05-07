@@ -8,13 +8,11 @@
  */
 return [
 
-    'encoding' => 'UTF-8',
-
-    'cachePath' => storage_path('purify'),
-
     'settings' => [
 
         'default' => [
+            'Core.Encoding'            => 'UTF-8',
+            'Cache.SerializerPath'     => storage_path('purify'),
             'HTML.Doctype'             => 'XHTML 1.0 Strict',
             'HTML.Allowed'             => 'div,b,strong,i,em,a[href|title],ul,ol,li,p[style],br,span[style],img[width|height|alt|src]',
             'CSS.AllowedProperties'    => 'font,font-size,font-weight,font-style,font-family,text-decoration,padding-left,color,background-color,text-align',
