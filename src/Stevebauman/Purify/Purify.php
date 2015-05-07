@@ -42,15 +42,16 @@ class Purify
      * Cleans the specified input.
      *
      * @param array|string $input
+     * @param array $config
      *
      * @return array|string
      */
-    public function clean($input)
+    public function clean($input, $config = null)
     {
         if(is_array($input)) {
-            return $this->cleanArray($input);
+            return $this->cleanArray($input, $config);
         } else {
-            return $this->purifier->purify($input);
+            return $this->purifier->purify($input, $config);
         }
     }
 
@@ -58,12 +59,13 @@ class Purify
      * Cleans the specified array of HTML input.
      *
      * @param array $input
+     * @param array $config
      *
      * @return array
      */
-    public function cleanArray(array $input)
+    public function cleanArray(array $input, $config = null)
     {
-        return $this->purifier->purifyArray($input);
+        return $this->purifier->purifyArray($input, $config);
     }
 
     /**

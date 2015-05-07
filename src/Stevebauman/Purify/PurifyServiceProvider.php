@@ -2,6 +2,7 @@
 
 namespace Stevebauman\Purify;
 
+use Stevebauman\Purify\Purify;
 use Illuminate\Support\ServiceProvider;
 
 class PurifyServiceProvider extends ServiceProvider
@@ -61,6 +62,12 @@ class PurifyServiceProvider extends ServiceProvider
                 __DIR__ . '../../../config/config.php' => config_path('purify.php'),
             ], 'config');
         }
+
+        // Bind the new purify instance
+        $this->app->bind('purify', function($app)
+        {
+            return new Purify($app['config']);
+        });
 	}
 
 	/**
