@@ -15,11 +15,20 @@
         "ezyang/htmlpurifier": "4.6.*"
     },
     "require-dev": {
-      "phpunit/phpunit": "4.*"
+      "phpunit/phpunit": "4.*",
+      "mockery/mockery": "0.9.*"
+    },
+    "archive": {
+      "exclude": ["/tests"]
     },
     "autoload": {
         "psr-4": {
             "Stevebauman\\Purify\\": "src/Stevebauman/Purify/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+          "Stevebauman\\Purify\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "stable"
