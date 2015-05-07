@@ -10,7 +10,6 @@
          stopOnFailure="false"
          syntaxCheck="false"
 >
-
     <testsuites>
         <testsuite name="Purify Test Suite">
             <directory suffix="Test.php">./tests/</directory>

@@ -1,6 +1,12 @@
 ![Purify Banner]
 (https://github.com/stevebauman/purify/blob/master/purify-banner.jpg)
 
+[![Travis CI](https://img.shields.io/travis/stevebauman/purify.svg?style=flat-square)](https://travis-ci.org/stevebauman/purify)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/stevebauman/purify.svg?style=flat-square)](https://scrutinizer-ci.com/g/stevebauman/purify/?branch=master)
+[![Latest Stable Version](https://img.shields.io/packagist/v/stevebauman/purify.svg?style=flat-square)](https://packagist.org/packages/stevebauman/purify)
+[![Total Downloads](https://img.shields.io/packagist/dt/stevebauman/purify.svg?style=flat-square)](https://packagist.org/packages/stevebauman/purify)
+[![License](https://img.shields.io/packagist/l/stevebauman/purify.svg?style=flat-square)](https://packagist.org/packages/stevebauman/purify)
+
 ### Description
 
 Purify is an HTML Purifier helper for Laravel 4 / 5. It utilizes the fantastic package [HTMLPurifier](https://github.com/ezyang/htmlpurifier)
