@@ -56,7 +56,12 @@ Need to specify certain rules for a single input? Pass in a configuration array 
     
     $cleaned = Purify::clean($input, $configuration);
 
-**Keep in mind**: The configuration array passed into input will overwrite the 
+> **Note**: Configuration passed into the second parameter is merged with the current configuration. This allows you to
+add settings on the fly. Simply pass `false` into the third parameter if you **do not** want the configuration merged.
+
+    $configuration = ['HTML.Allowed' => 'div,b,a[href]'];
+    
+    $cleaned = Purify::clean($input, $configuration, $merge = false);
 
 ##### Replacing the HTML Purifier instance
 

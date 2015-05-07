@@ -3,6 +3,7 @@
 namespace Stevebauman\Purify;
 
 use Illuminate\Config\Repository;
+use HTMLPurifier_ConfigSchema;
 use HTMLPurifier_Config;
 use HTMLPurifier;
 
@@ -13,27 +14,38 @@ use HTMLPurifier;
 class Purify
 {
     /**
+     * The HTML Purifier instance.
+     *
      * @var HTMLPurifier
      */
     protected $purifier;
 
     /**
+     * The HTML Purifier configuration instance.
+     *
      * @var HTMLPurifier_Config
      */
     protected $config;
 
     /**
+     * The Laravel configuration repository instance.
+     *
+     * @var Repository
+     */
+    protected $repository;
+
+    /**
      * Constructor.
      *
-     * @param Repository $config
+     * @param Repository $repository
      */
-    public function __construct(Repository $config)
+    public function __construct(Repository $repository)
     {
-        $this->setPurifierConfig(HTMLPurifier_Config::createDefault());
+        $this->setRepository($repository);
 
-        $configuration = $config->get('purify::config');
+        $configuration = HTMLPurifier_Config::create($this->getSettings());
 
-        $this->config->loadArray($configuration);
+        $this->setPurifierConfig($configuration);
 
         $this->setPurifier(new HTMLPurifier($this->config));
     }
@@ -42,16 +54,19 @@ class Purify
      * Cleans the specified input.
      *
      * @param array|string $input
-     * @param array $config
+     * @param array $settings
+     * @param bool $mergeSettings
      *
      * @return array|string
      */
-    public function clean($input, $config = null)
+    public function clean($input, $settings = [], $mergeSettings = true)
     {
+        if($mergeSettings) $settings = $this->mergeSettings($settings);
+
         if(is_array($input)) {
-            return $this->cleanArray($input, $config);
+            return $this->cleanArray($input, $settings);
         } else {
-            return $this->purifier->purify($input, $config);
+            return $this->purifier->purify($input, $settings);
         }
     }
 
@@ -59,13 +74,16 @@ class Purify
      * Cleans the specified array of HTML input.
      *
      * @param array $input
-     * @param array $config
+     * @param array $settings
+     * @param bool $mergeSettings
      *
      * @return array
      */
-    public function cleanArray(array $input, $config = null)
+    public function cleanArray(array $input, $settings = [], $mergeSettings = true)
     {
-        return $this->purifier->purifyArray($input, $config);
+        if($mergeSettings) $settings = $this->mergeSettings($settings);
+
+        return $this->purifier->purifyArray($input, $settings);
     }
 
     /**
@@ -108,4 +126,44 @@ class Purify
     {
         return $this->config;
     }
+
+    /**
+     * Sets the current configuration repository.
+     *
+     * @param Repository $repository
+     */
+    private function setRepository(Repository $repository)
+    {
+        $this->repository = $repository;
+    }
+
+    /**
+     * Returns the configuration settings for HTML Purifier.
+     *
+     * If no configuration settings are retrieved, a default
+     * configuration schema is returned.
+     *
+     * @return array
+     */
+    private function getSettings()
+    {
+        $settings = $this->repository->get('purify::settings.default');
+
+        if(count($settings) > 0) return $settings;
+
+        return HTMLPurifier_ConfigSchema::instance()->defaults;
+    }
+
+    /**
+     * Merges the specified settings with the configuration settings.
+     *
+     * @param array $settings
+     *
+     * @return array
+     */
+    private function mergeSettings(array $settings = [])
+    {
+        return array_merge($settings, $this->getSettings());
+    }
 }
+

@@ -3,17 +3,12 @@
 /**
  * The Purify Configuration File.
  *
- * This configuration array is passed directly to HTMLPurifier.
+ * The default configuration settings array is passed directly to HTMLPurifier.
  * Feel free to add / remove / customize these attributes as you wish.
- *
  */
 return [
 
     'encoding' => 'UTF-8',
-
-    'finalize' => true,
-
-    'preload'  => false,
 
     'cachePath' => storage_path('purify'),
 
