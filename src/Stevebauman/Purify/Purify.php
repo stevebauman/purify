@@ -175,7 +175,7 @@ class Purify
      */
     private function mergeSettings(array $settings = [])
     {
-        return array_merge($settings, $this->getSettings());
+        return array_merge($this->getSettings(), $settings);
     }
 
     /**
