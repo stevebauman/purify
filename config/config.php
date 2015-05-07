@@ -5,6 +5,7 @@
  *
  * This configuration array is passed directly to HTMLPurifier.
  * Feel free to add / remove / customize these attributes as you wish.
+ *
  */
 return [
 
