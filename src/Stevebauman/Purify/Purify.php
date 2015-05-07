@@ -147,9 +147,21 @@ class Purify
      */
     private function getSettings()
     {
-        $settings = $this->repository->get('purify::settings.default');
+        $settings = $this->repository->get('purify' . PurifyServiceProvider::$packageConfigSeparator . 'settings.default');
 
-        if(count($settings) > 0) return $settings;
+        if(count($settings) > 0)
+        {
+            /*
+             * If the serializer path exists, we need to validate that the
+             * folder actually exists, and create it if not
+             */
+            if(array_key_exists('Cache.SerializerPath', $settings))
+            {
+                $this->validateCachePath($settings['Cache.SerializerPath']);
+            }
+
+            return $settings;
+        }
 
         return HTMLPurifier_ConfigSchema::instance()->defaults;
     }
@@ -165,5 +177,22 @@ class Purify
     {
         return array_merge($settings, $this->getSettings());
     }
-}
 
+    /**
+     * Validates the HTML Purifiers cache path, and
+     * creates the folder if it does not exist.
+     *
+     * @param string $path
+     *
+     * @return bool
+     */
+    private function validateCachePath($path)
+    {
+        if( ! is_dir($path))
+        {
+            return mkdir($path);
+        }
+
+        return true;
+    }
+}
