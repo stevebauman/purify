@@ -50,7 +50,7 @@ Need to purify an array of user input? Just pass in an array:
 
 ##### Dynamic Configuration
 
-Need to specify certain rules for a single input? Pass in a configuration array into the second parameter:
+Need to add or modify rules for a single input? Pass in a configuration array into the second parameter:
 
     $configuration = ['HTML.Allowed' => 'div,b,a[href]'];
     
