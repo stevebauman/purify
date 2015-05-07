@@ -53,4 +53,28 @@ class PurifyTest extends FunctionalTestCase
 
         $this->assertEquals('Test', $cleaned);
     }
+
+    public function testGetPurifier()
+    {
+        $this->assertInstanceOf('HTMLPurifier', $this->purifier->getPurifier());
+    }
+
+    public function testGetPurifierConfiguration()
+    {
+        $this->assertInstanceOf('HTMLPurifier_Config', $this->purifier->getPurifierConfig());
+    }
+
+    public function testSetPurifier()
+    {
+        $purifier = new \HTMLPurifier();
+
+        $this->assertInstanceOf('HTMLPurifier', $this->purifier->setPurifier($purifier)->getPurifier());
+    }
+
+    public function testSetPurifierConfig()
+    {
+        $config = \HTMLPurifier_Config::createDefault();
+
+        $this->assertInstanceOf('HTMLPurifier_Config', $this->purifier->setPurifierConfig($config)->getPurifierConfig());
+    }
 }
