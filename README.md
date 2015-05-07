@@ -89,4 +89,7 @@ Need to replace the HTML Purifier Configuration instance with your own? Call the
 
 ### Configuration
 
-Inside the configuration file, the entire default settings array is passed directly to the HTML Purifier configuration, 
+Inside the configuration file, the entire settings array is passed directly to the HTML Purifier configuration, so feel
+free to customize it however you wish. For the configuration documentation, please visit the HTML Purifier Website:
+
+http://htmlpurifier.org/live/configdoc/plain.html
