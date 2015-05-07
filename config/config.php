@@ -27,10 +27,6 @@ return [
             'AutoFormat.RemoveEmpty'   => true,
         ],
 
-        'test' => [
-            'Attr.EnableID' => true
-        ],
-
         "youtube" => [
             "HTML.SafeIframe" => 'true',
             "URI.SafeIframeRegexp" => "%^(http://|https://|//)(www.youtube.com/embed/|player.vimeo.com/video/)%",
