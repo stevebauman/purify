@@ -42,4 +42,9 @@ class PurifyTest extends FunctionalTestCase
 
         $this->assertEquals($expected, $cleanedTargetBlank);
     }
+
+    public function testCleanDoNotMergeConfig()
+    {
+
+    }
 }

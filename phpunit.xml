@@ -10,17 +10,10 @@
          stopOnFailure="false"
          syntaxCheck="false"
 >
-    <filter>
-        <whitelist>
-            <exclude>
-                <file>tests/FunctionalTestCase.php</file>
-            </exclude>
-        </whitelist>
-    </filter>
 
     <testsuites>
         <testsuite name="Purify Test Suite">
-            <directory suffix=".php">./tests/</directory>
+            <directory suffix="Test.php">./tests/</directory>
         </testsuite>
     </testsuites>
 </phpunit>
