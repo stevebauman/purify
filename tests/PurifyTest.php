@@ -45,6 +45,12 @@ class PurifyTest extends FunctionalTestCase
 
     public function testCleanDoNotMergeConfig()
     {
+        $settings = [
+            'HTML.ForbiddenElements' => 'p',
+        ];
 
+        $cleaned = $this->purifier->clean($this->testInput, $settings, false);
+
+        $this->assertEquals('Test', $cleaned);
     }
 }

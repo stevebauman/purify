@@ -147,7 +147,7 @@ class Purify
      */
     private function getSettings()
     {
-        $settings = $this->repository->get('purify' . PurifyServiceProvider::$packageConfigSeparator . 'settings.default');
+        $settings = $this->repository->get('purify' . PurifyServiceProvider::$packageConfigSeparator . 'settings');
 
         if(count($settings) > 0)
         {

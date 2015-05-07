@@ -21,7 +21,7 @@ To install Purify, insert the following require in your `composer.json` file:
 Now run a `composer update` on your project source.
 
 Once that's finished, insert the service provider in your `app/config/app.php`
-(or `config/app.php` for Laravel 5)configuration file:
+(or `config/app.php` for Laravel 5) configuration file:
 
     'Stevebauman\Purify\PurifyServiceProvider'
     
@@ -89,4 +89,4 @@ Need to replace the HTML Purifier Configuration instance with your own? Call the
 
 ### Configuration
 
-Inside the configuration file, the entire array is passed directly to the HTML Purifier configuration, 
+Inside the configuration file, the entire default settings array is passed directly to the HTML Purifier configuration, 
