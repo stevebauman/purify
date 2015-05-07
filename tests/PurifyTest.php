@@ -4,7 +4,7 @@ namespace Stevebauman\Purify\Tests;
 
 class PurifyTest extends FunctionalTestCase
 {
-    public $testInput = '<script>alert("Harmful Script");</script> <p style="a style" class="a-different-class">Test</p>';
+    public $testInput = '<script>alert("Harmful Script");</script> <p style="a {color: blue;}" class="a-different-class">Test</p>';
 
     public function testClean()
     {
@@ -26,6 +26,20 @@ class PurifyTest extends FunctionalTestCase
 
     public function testCleanMergeConfig()
     {
+        $input = '<a href="http://www.google.ca">Google</a>';
 
+        $cleaned = $this->purifier->clean($input);
+
+        $this->assertEquals($cleaned, $input);
+
+        $settings = [
+            'HTML.TargetBlank' => true,
+        ];
+
+        $cleanedTargetBlank = $this->purifier->clean($input, $settings);
+
+        $expected = '<a href="http://www.google.ca" target="_blank">Google</a>';
+
+        $this->assertEquals($expected, $cleanedTargetBlank);
     }
 }
