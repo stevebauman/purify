@@ -62,8 +62,8 @@ Need to add or modify rules for a single input? Pass in a configuration array in
     
     $cleaned = Purify::clean($input, $configuration);
 
-> **Note**: Configuration passed into the second parameter is merged with the current configuration. This allows you to
-add settings on the fly. Simply pass `false` into the third parameter if you **do not** want the configuration merged.
+> **Note**: Configuration passed into the second parameter is merged with the current configuration and will overwrite array keys you supply.
+This allows you to add settings on the fly. Simply pass `false` into the third parameter if you **do not** want the configuration merged.
 
     $configuration = ['HTML.Allowed' => 'div,b,a[href]'];
     
