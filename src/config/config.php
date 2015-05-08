@@ -65,7 +65,7 @@ return [
          *
          * http://htmlpurifier.org/live/configdoc/plain.html#AutoFormat.AutoParagraph
          */
-        'AutoFormat.AutoParagraph' => true,
+        'AutoFormat.AutoParagraph' => false,
 
         /*
          * When enabled, HTML Purifier will attempt to remove empty
