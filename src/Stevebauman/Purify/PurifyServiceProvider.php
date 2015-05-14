@@ -2,14 +2,13 @@
 
 namespace Stevebauman\Purify;
 
-use Stevebauman\Purify\Purify;
 use Illuminate\Support\ServiceProvider;
 
 class PurifyServiceProvider extends ServiceProvider
 {
     /**
      * Stores the package configuration separator
-     * for Laravel 5 compatibility
+     * for Laravel 5 compatibility.
      *
      * @var string
      */
@@ -24,8 +23,6 @@ class PurifyServiceProvider extends ServiceProvider
 
     /**
      * Register the service provider.
-     *
-     * @return void
      */
     public function register()
     {
@@ -46,7 +43,7 @@ class PurifyServiceProvider extends ServiceProvider
              * Assign the configuration as publishable, and tag it as 'config'
              */
             $this->publishes([
-                __DIR__ . '../../../config/config.php' => config_path('purify.php'),
+                __DIR__.'../../../config/config.php' => config_path('purify.php'),
             ], 'config');
         }
 

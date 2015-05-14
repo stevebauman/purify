@@ -8,8 +8,7 @@ use HTMLPurifier_Config;
 use HTMLPurifier;
 
 /**
- * Class Purify
- * @package Stevebauman\Purify
+ * Class Purify.
  */
 class Purify
 {
@@ -54,16 +53,18 @@ class Purify
      * Cleans the specified input.
      *
      * @param array|string $input
-     * @param array $settings
-     * @param bool $mergeSettings
+     * @param array        $settings
+     * @param bool         $mergeSettings
      *
      * @return array|string
      */
     public function clean($input, $settings = [], $mergeSettings = true)
     {
-        if($mergeSettings) $settings = $this->mergeSettings($settings);
+        if ($mergeSettings) {
+            $settings = $this->mergeSettings($settings);
+        }
 
-        if(is_array($input)) {
+        if (is_array($input)) {
             return $this->cleanArray($input, $settings);
         } else {
             return $this->purifier->purify($input, $settings);
@@ -75,13 +76,15 @@ class Purify
      *
      * @param array $input
      * @param array $settings
-     * @param bool $mergeSettings
+     * @param bool  $mergeSettings
      *
      * @return array
      */
     public function cleanArray(array $input, $settings = [], $mergeSettings = true)
     {
-        if($mergeSettings) $settings = $this->mergeSettings($settings);
+        if ($mergeSettings) {
+            $settings = $this->mergeSettings($settings);
+        }
 
         return $this->purifier->purifyArray($input, $settings);
     }
@@ -155,16 +158,14 @@ class Purify
      */
     private function getSettings()
     {
-        $settings = $this->repository->get('purify' . PurifyServiceProvider::$packageConfigSeparator . 'settings');
+        $settings = $this->repository->get('purify'.PurifyServiceProvider::$packageConfigSeparator.'settings');
 
-        if(count($settings) > 0)
-        {
+        if (count($settings) > 0) {
             /*
              * If the serializer path exists, we need to validate that the
              * folder actually exists, and create it if not
              */
-            if(array_key_exists('Cache.SerializerPath', $settings))
-            {
+            if (array_key_exists('Cache.SerializerPath', $settings)) {
                 $this->validateCachePath($settings['Cache.SerializerPath']);
             }
 
@@ -196,8 +197,7 @@ class Purify
      */
     private function validateCachePath($path)
     {
-        if( ! is_dir($path))
-        {
+        if (!is_dir($path)) {
             return mkdir($path);
         }
 
