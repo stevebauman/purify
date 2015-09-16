@@ -11,7 +11,7 @@ class FunctionalTestCase extends \PHPUnit_Framework_TestCase
      * @var Purify
      */
     protected $purifier;
-
+    
     public function setUp()
     {
         $configuration = Mockery::mock('Illuminate\Contracts\Config\Repository');

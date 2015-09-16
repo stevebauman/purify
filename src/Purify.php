@@ -155,13 +155,11 @@ class Purify
      */
     private function getSettings()
     {
-        $settings = $this->repository->get('purify'.PurifyServiceProvider::$packageConfigSeparator.'settings');
+        $settings = $this->repository->get('purify.settings');
 
         if (count($settings) > 0) {
-            /*
-             * If the serializer path exists, we need to validate that the
-             * folder actually exists, and create it if not
-             */
+            // If the serializer path exists, we need to validate that
+            // the folder actually exists, and create it if not
             if (array_key_exists('Cache.SerializerPath', $settings)) {
                 $this->validateCachePath($settings['Cache.SerializerPath']);
             }
