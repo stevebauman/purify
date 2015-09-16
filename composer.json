@@ -23,7 +23,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Stevebauman\\Purify\\": "src/Stevebauman/Purify/"
+            "Stevebauman\\Purify\\": "src/"
         }
     },
     "autoload-dev": {
