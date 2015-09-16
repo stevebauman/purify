@@ -2,14 +2,11 @@
 
 namespace Stevebauman\Purify;
 
-use Illuminate\Config\Repository;
+use Illuminate\Contracts\Config\Repository;
 use HTMLPurifier_ConfigSchema;
 use HTMLPurifier_Config;
 use HTMLPurifier;
 
-/**
- * Class Purify.
- */
 class Purify
 {
     /**
