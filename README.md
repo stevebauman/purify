@@ -16,7 +16,7 @@ by [ezyang](https://github.com/ezyang). All credit for purification goes to him.
 
 To install Purify, insert the following require in your `composer.json` file:
 
-    "stevebauman/purify": "1.0.*"
+    "stevebauman/purify": "1.1.*"
 
 Now run a `composer update` on your project source.
 
