@@ -14,7 +14,7 @@ class FunctionalTestCase extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $configuration = Mockery::mock('Illuminate\Config\Repository');
+        $configuration = Mockery::mock('Illuminate\Contracts\Config\Repository');
 
         $configuration->shouldReceive('get')->once()->andReturn([]);
 
