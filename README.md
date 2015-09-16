@@ -9,7 +9,7 @@
 
 ### Description
 
-Purify is an HTML Purifier helper for Laravel 4 / 5. It utilizes the fantastic package [HTMLPurifier](https://github.com/ezyang/htmlpurifier)
+Purify is an HTML Purifier helper for Laravel 5. It utilizes the fantastic package [HTMLPurifier](https://github.com/ezyang/htmlpurifier)
 by [ezyang](https://github.com/ezyang). All credit for purification goes to him.
 
 ### Installation
