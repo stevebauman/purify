@@ -2,22 +2,21 @@
 
 namespace Stevebauman\Purify\Tests;
 
-use Mockery;
-use Stevebauman\Purify\Purify;
+use Orchestra\Testbench\TestCase;
 
-class FunctionalTestCase extends \PHPUnit_Framework_TestCase
+class FunctionalTestCase extends TestCase
 {
-    /**
-     * @var Purify
-     */
-    protected $purifier;
-    
-    public function setUp()
+    protected function getApplicationAliases($app)
     {
-        $configuration = Mockery::mock('Illuminate\Contracts\Config\Repository');
+        return [
+            'Purify' => 'Stevebauman\Purify\Facades\Purify',
+        ];
+    }
 
-        $configuration->shouldReceive('get')->once()->andReturn([]);
-
-        $this->purifier = new Purify($configuration);
+    protected function getApplicationProviders($app)
+    {
+        return [
+            'Stevebauman\Purify\PurifyServiceProvider',
+        ];
     }
 }
