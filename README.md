@@ -1,5 +1,4 @@
-![Purify Banner]
-(https://github.com/stevebauman/purify/blob/master/purify-banner.jpg)
+# Purify
 
 [![Travis CI](https://img.shields.io/travis/stevebauman/purify.svg?style=flat-square)](https://travis-ci.org/stevebauman/purify)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/stevebauman/purify.svg?style=flat-square)](https://scrutinizer-ci.com/g/stevebauman/purify/?branch=master)
