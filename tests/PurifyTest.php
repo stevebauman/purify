@@ -7,7 +7,16 @@ use Stevebauman\Purify\Facades\Purify;
 class PurifyTest extends FunctionalTestCase
 {
     public $testInput = '<script>alert("Harmful Script");</script> <p style="a {color: blue;}" class="a-different-class">Test</p>';
-    
+
+    public function testClean()
+    {
+        $cleaned = Purify::clean($this->testInput);
+
+        $expected = '<p class="a-different-class">Test</p>';
+
+        $this->assertEquals($expected, $cleaned);
+    }
+
     public function testCleanArray()
     {
         $cleaned = Purify::clean([$this->testInput, $this->testInput]);
