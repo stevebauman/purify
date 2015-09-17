@@ -18,7 +18,7 @@
         "orchestra/testbench": "~3.1"
     },
     "archive": {
-      "exclude": ["/tests"]
+        "exclude": ["/tests"]
     },
     "autoload": {
         "psr-4": {
