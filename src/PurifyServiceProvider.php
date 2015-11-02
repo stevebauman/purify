@@ -19,7 +19,7 @@ class PurifyServiceProvider extends ServiceProvider
     public function register()
     {
         $this->publishes([
-            __DIR__.'Config/config.php' => config_path('purify.php'),
+            __DIR__.'/Config/config.php' => config_path('purify.php'),
         ], 'config');
 
         // Bind the new purify instance
