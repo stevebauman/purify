@@ -40,7 +40,7 @@ class PurifyTest extends FunctionalTestCase
 
         $cleanedTargetBlank = Purify::clean($input, $settings);
 
-        $expected = '<a href="http://www.google.ca" target="_blank">Google</a>';
+        $expected = '<a href="http://www.google.ca" target="_blank" rel="noreferrer">Google</a>';
 
         $this->assertEquals($expected, $cleanedTargetBlank);
     }
