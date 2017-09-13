@@ -1,6 +1,6 @@
 {
     "name": "stevebauman/purify",
-    "description": "An HTML Purifier for Laravel 5",
+    "description": "An HTML Purifier / Sanitizer for Laravel",
     "keywords" : ["purify", "purification", "purifier", "clean", "cleaner", "laravel", "html"],
     "authors": [
         {
