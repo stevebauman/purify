@@ -30,5 +30,15 @@
           "Stevebauman\\Purify\\Tests\\": "tests/"
         }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Stevebauman\\Purify\\PurifyServiceProvider"
+            ],
+            "aliases": {
+                "Purify": "Stevebauman\\Purify\\Facades\\Purify"
+            }
+        }
+    }
 }

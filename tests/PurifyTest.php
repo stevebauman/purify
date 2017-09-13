@@ -8,7 +8,8 @@ class PurifyTest extends FunctionalTestCase
 {
     public $testInput = '<script>alert("Harmful Script");</script> <p style="a {color: blue;}" class="a-different-class">Test</p>';
 
-    public function testClean()
+    /** @test */
+    public function input_is_sanitized()
     {
         $cleaned = Purify::clean($this->testInput);
 
@@ -17,7 +18,8 @@ class PurifyTest extends FunctionalTestCase
         $this->assertEquals($expected, $cleaned);
     }
 
-    public function testCleanArray()
+    /** @test */
+    public function input_arrays_are_sanitized()
     {
         $cleaned = Purify::clean([$this->testInput, $this->testInput]);
 
@@ -26,7 +28,8 @@ class PurifyTest extends FunctionalTestCase
         $this->assertEquals($expected, $cleaned);
     }
 
-    public function testCleanMergeConfig()
+    /** @test */
+    public function given_config_overwrites_default_config()
     {
         $input = '<a href="http://www.google.ca">Google</a>';
 
@@ -45,38 +48,17 @@ class PurifyTest extends FunctionalTestCase
         $this->assertEquals($expected, $cleanedTargetBlank);
     }
 
-    public function testCleanDoNotMergeConfig()
-    {
-        $settings = [
-            'HTML.ForbiddenElements' => 'p',
-        ];
-
-        $cleaned = Purify::clean($this->testInput, $settings, false);
-
-        $this->assertEquals('Test', $cleaned);
-    }
-
-    public function testGetPurifier()
+    /** @test */
+    public function purifier_instance_is_accessible()
     {
         $this->assertInstanceOf('HTMLPurifier', Purify::getPurifier());
     }
 
-    public function testGetPurifierConfiguration()
-    {
-        $this->assertInstanceOf('HTMLPurifier_Config', Purify::getPurifierConfig());
-    }
-
-    public function testSetPurifier()
+    /** @test */
+    public function purifier_instance_can_be_set()
     {
         $purifier = new \HTMLPurifier();
 
         $this->assertInstanceOf('HTMLPurifier', Purify::setPurifier($purifier)->getPurifier());
-    }
-
-    public function testSetPurifierConfig()
-    {
-        $config = \HTMLPurifier_Config::createDefault();
-
-        $this->assertInstanceOf('HTMLPurifier_Config', Purify::setPurifierConfig($config)->getPurifierConfig());
     }
 }

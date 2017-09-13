@@ -2,10 +2,9 @@
 
 namespace Stevebauman\Purify;
 
-use Illuminate\Contracts\Config\Repository;
-use HTMLPurifier_ConfigSchema;
-use HTMLPurifier_Config;
 use HTMLPurifier;
+use HTMLPurifier_Config;
+use HTMLPurifier_ConfigSchema;
 
 class Purify
 {
@@ -17,73 +16,33 @@ class Purify
     protected $purifier;
 
     /**
-     * The HTML Purifier configuration instance.
-     *
-     * @var HTMLPurifier_Config
-     */
-    protected $config;
-
-    /**
-     * The Laravel configuration repository instance.
-     *
-     * @var Repository
-     */
-    protected $repository;
-
-    /**
      * Constructor.
-     *
-     * @param Repository $repository
      */
-    public function __construct(Repository $repository)
+    public function __construct()
     {
-        $this->setRepository($repository);
+        $config = HTMLPurifier_Config::create($this->getSettings());
 
-        $configuration = HTMLPurifier_Config::create($this->getSettings());
-
-        $this->setPurifierConfig($configuration);
-
-        $this->setPurifier(new HTMLPurifier($this->config));
+        $this->setPurifier(new HTMLPurifier($config));
     }
 
     /**
      * Cleans the specified input.
      *
+     * If a configuration array is given, it **will not**
+     * merge your current configuration.
+     *
      * @param array|string $input
-     * @param array        $settings
-     * @param bool         $mergeSettings
+     * @param array|null   $config
      *
      * @return array|string
      */
-    public function clean($input, $settings = [], $mergeSettings = true)
+    public function clean($input, array $config = null)
     {
-        if ($mergeSettings) {
-            $settings = $this->mergeSettings($settings);
-        }
-
         if (is_array($input)) {
-            return $this->cleanArray($input, $settings);
+            return $this->purifier->purifyArray($input, $config);
         } else {
-            return $this->purifier->purify($input, $settings);
+            return $this->purifier->purify($input, $config);
         }
-    }
-
-    /**
-     * Cleans the specified array of HTML input.
-     *
-     * @param array $input
-     * @param array $settings
-     * @param bool  $mergeSettings
-     *
-     * @return array
-     */
-    public function cleanArray(array $input, $settings = [], $mergeSettings = true)
-    {
-        if ($mergeSettings) {
-            $settings = $this->mergeSettings($settings);
-        }
-
-        return $this->purifier->purifyArray($input, $settings);
     }
 
     /**
@@ -102,47 +61,13 @@ class Purify
     }
 
     /**
-     * Returns the current purifier object.
+     * Returns the HTML purifier object.
      *
      * @return HTMLPurifier
      */
     public function getPurifier()
     {
         return $this->purifier;
-    }
-
-    /**
-     * Sets the current purifiers configuration object.
-     *
-     * @param HTMLPurifier_Config $configuration
-     *
-     * @return $this
-     */
-    public function setPurifierConfig(HTMLPurifier_Config $configuration)
-    {
-        $this->config = $configuration;
-
-        return $this;
-    }
-
-    /**
-     * Returns the HTML Purifiers configuration object.
-     *
-     * @return HTMLPurifier_Config
-     */
-    public function getPurifierConfig()
-    {
-        return $this->config;
-    }
-
-    /**
-     * Sets the current configuration repository.
-     *
-     * @param Repository $repository
-     */
-    private function setRepository(Repository $repository)
-    {
-        $this->repository = $repository;
     }
 
     /**
@@ -153,9 +78,9 @@ class Purify
      *
      * @return array
      */
-    private function getSettings()
+    public function getSettings()
     {
-        $settings = $this->repository->get('purify.settings');
+        $settings = config('purify.settings');
 
         if (count($settings) > 0) {
             // If the serializer path exists, we need to validate that
@@ -171,18 +96,6 @@ class Purify
     }
 
     /**
-     * Merges the specified settings with the configuration settings.
-     *
-     * @param array $settings
-     *
-     * @return array
-     */
-    private function mergeSettings(array $settings = [])
-    {
-        return array_merge($this->getSettings(), $settings);
-    }
-
-    /**
      * Validates the HTML Purifiers cache path, and
      * creates the folder if it does not exist.
      *
@@ -190,7 +103,7 @@ class Purify
      *
      * @return bool
      */
-    private function validateCachePath($path)
+    protected function validateCachePath($path)
     {
         if (!is_dir($path)) {
             return mkdir($path);
