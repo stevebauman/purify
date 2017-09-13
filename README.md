@@ -6,21 +6,24 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/stevebauman/purify.svg?style=flat-square)](https://packagist.org/packages/stevebauman/purify)
 [![License](https://img.shields.io/packagist/l/stevebauman/purify.svg?style=flat-square)](https://packagist.org/packages/stevebauman/purify)
 
-### Description
+Purify is an HTML input sanitizer for Laravel 5.
 
-Purify is an HTML Purifier helper for Laravel 5. It utilizes the fantastic package [HTMLPurifier](https://github.com/ezyang/htmlpurifier)
-by [ezyang](https://github.com/ezyang). All credit for purification goes to him.
+It utilizes [HTMLPurifier](https://github.com/ezyang/htmlpurifier)
+by [ezyang](https://github.com/ezyang).
 
 ### Installation
 
 To install Purify, insert the following require in your `composer.json` file:
 
-    "stevebauman/purify": "1.1.*"
+    "stevebauman/purify": "2.0.*"
 
 Now run a `composer update` on your project source.
 
-Once that's finished, insert the service provider in your `app/config/app.php`
-(or `config/app.php` for Laravel 5) configuration file:
+> **Note:** If you're using Laravel 5.5, ignore the below setup.
+>
+> The facade and service provider are registered automatically.
+
+Then, insert the service provider in your `config/app.php`:
 
     'Stevebauman\Purify\PurifyServiceProvider'
     
@@ -47,12 +50,12 @@ echo $cleaned; // Returns '<p class="a-different-class">Test</p>'
 Need to purify an array of user input? Just pass in an array:
 
 ```php
-$inputArray = [
+$array = [
     '<script>alert("Harmful Script");</script> <p style="a style" class="a-different-class">Test</p>',
     '<script>alert("Harmful Script");</script> <p style="a style" class="a-different-class">Test</p>',
 ];
 
-$cleaned = Purfiy::clean($inputArray);
+$cleaned = Purify::clean($array);
 
 var_dump($cleaned); // Returns [0] => '<p class="a-different-class">Test</p>' [1] => '<p class="a-different-class">Test</p>'
 ```
@@ -67,13 +70,12 @@ $configuration = ['HTML.Allowed' => 'div,b,a[href]'];
 $cleaned = Purify::clean($input, $configuration);
 ```
 
-> **Note**: Configuration passed into the second parameter is merged with the current configuration and will overwrite array keys you supply.
-This allows you to add settings on the fly. Simply pass `false` into the third parameter if you **do not** want the configuration merged.
+> **Note**: Configuration passed into the second parameter is **not** merged with your current configuration.
 
 ```php
-$configuration = ['HTML.Allowed' => 'div,b,a[href]'];
+$config = ['HTML.Allowed' => 'div,b,a[href]'];
 
-$cleaned = Purify::clean($input, $configuration, $merge = false);
+$cleaned = Purify::clean($input, $config);
 ```
 
 ##### Replacing the HTML Purifier instance
@@ -84,18 +86,6 @@ Need to replace the HTML Purifier instance with your own? Call the `setPurifier(
 $purifier = new HTMLPurifier();
 
 Purify::setPurifier($purifier);
-```
-
-##### Replacing the HTML Purifier Configuration instance
-
-Need to replace the HTML Purifier Configuration instance with your own? Call the `setPurifierConfig()` method:
-
-```php
-$settings = ['HTML.Allowed' => 'div,b,a[href]'];
-
-$configuration = new HTMLPurifier_Config($settings);
-
-Purify::setPurifierConfig($configuration);
 ```
 
 ### Configuration
