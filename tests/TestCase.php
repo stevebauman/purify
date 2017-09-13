@@ -2,9 +2,9 @@
 
 namespace Stevebauman\Purify\Tests;
 
-use Orchestra\Testbench\TestCase;
+use Orchestra\Testbench\TestCase as BaseTestCase;
 
-class FunctionalTestCase extends TestCase
+class TestCase extends BaseTestCase
 {
     protected function getPackageAliases($app)
     {

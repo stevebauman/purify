@@ -4,7 +4,7 @@ namespace Stevebauman\Purify\Tests;
 
 use Stevebauman\Purify\Facades\Purify;
 
-class PurifyTest extends FunctionalTestCase
+class PurifyTest extends TestCase
 {
     public $testInput = '<script>alert("Harmful Script");</script> <p style="a {color: blue;}" class="a-different-class">Test</p>';
 
