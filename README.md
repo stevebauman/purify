@@ -77,12 +77,13 @@ var_dump($cleaned); // Returns [0] => '<p class="a-different-class">Test</p>' [1
 Need to add or modify rules for a single input? Pass in a configuration array into the second parameter:
 
 ```php
-$configuration = ['HTML.Allowed' => 'div,b,a[href]'];
+$config = ['HTML.Allowed' => 'div,b,a[href]'];
 
-$cleaned = Purify::clean($input, $configuration);
+$cleaned = Purify::clean($input, $config);
 ```
 
-> **Note**: Configuration passed into the second parameter is **not** merged with your current configuration.
+> **Note**: Configuration passed into the second parameter is
+> **not** merged with your current configuration.
 
 ```php
 $config = ['HTML.Allowed' => 'div,b,a[href]'];
@@ -102,7 +103,9 @@ Purify::setPurifier($purifier);
 
 ### Configuration
 
-Inside the configuration file, the entire settings array is passed directly to the HTML Purifier configuration, so feel
-free to customize it however you wish. For the configuration documentation, please visit the HTML Purifier Website:
+Inside the configuration file, the entire settings array is passed directly
+to the HTML Purifier configuration, so feel free to customize it however
+you wish. For the configuration documentation, please visit the
+HTML Purifier Website:
 
 http://htmlpurifier.org/live/configdoc/plain.html
