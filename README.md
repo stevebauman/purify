@@ -74,7 +74,7 @@ var_dump($cleaned); // Returns [0] => '<p class="a-different-class">Test</p>' [1
 
 ##### Dynamic Configuration
 
-Need to add or modify rules for a single input? Pass in a configuration array into the second parameter:
+Need a different configuration for a single input? Pass in a configuration array into the second parameter:
 
 ```php
 $config = ['HTML.Allowed' => 'div,b,a[href]'];
