@@ -40,7 +40,7 @@ You can also use the facade if you wish:
 Then, publish the configuration file using:
 
 ```cmd
-php artisan vendor:publish --provider=Stevebauman\Purify\PurifyServiceProvider
+php artisan vendor:publish --provider="Stevebauman\Purify\PurifyServiceProvider"
 ```
 
 ### Usage
