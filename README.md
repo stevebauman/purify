@@ -28,7 +28,7 @@ Now run a `composer update` on your project source.
 Then, insert the service provider in your `config/app.php`:
 
 ```php
-'Stevebauman\Purify\PurifyServiceProvider'
+Stevebauman\Purify\PurifyServiceProvider::class
 ```
     
 You can also use the facade if you wish:
