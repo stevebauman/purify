@@ -187,4 +187,6 @@ class PurifySetupProvider extends ServiceProvider
 After this service provider is created, make sure you insert it into your `providers` array in the `app/config.php`
 file, and update your `HTML.Allowed` string in the `config/purify.php` file.
 
-> **Note**: Remember that after this definition is created, and you have ran `Purify::clean()`, the definition will be cached, and you will have to clear it from your `storage/app/purify` folder if you want to make changes to the definition. Otherwise, you will have to change the definition version number for it to be re-cached.
+> **Note**: Remember that after this definition is created, and you have ran `Purify::clean()`, the definition will be cached, and you will have to clear it from your `storage/app/purify` folder if you want to make changes to the definition.
+>
+> Otherwise, you will have to change the definition version number or ID for it to be re-cached.
