@@ -183,3 +183,6 @@ class PurifySetupProvider extends ServiceProvider
     }
 }
 ```
+
+After this service provider is created, make sure you insert it into your `providers` array in the `app/config.php`
+file, and update your `HTML.Allowed` string in the `config/purify.php` file.
