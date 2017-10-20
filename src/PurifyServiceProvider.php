@@ -24,7 +24,7 @@ class PurifyServiceProvider extends ServiceProvider
 
         // Bind the new purify instance
         $this->app->bind('purify', function ($app) {
-            return new Purify($app['config']);
+            return new Purify();
         });
     }
 
