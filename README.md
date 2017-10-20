@@ -109,3 +109,77 @@ you wish. For the configuration documentation, please visit the
 HTML Purifier Website:
 
 http://htmlpurifier.org/live/configdoc/plain.html
+
+#### Custom Configuration Rules
+
+There's mutliple ways of creating custom rules on the HTML Purifier instance.
+
+Below is an example service provider you can use as a starting point to add rules to the instance. This provider gives compatibility with Basecamp's Trix WYSIWYG editor:
+
+```php
+<?php
+
+namespace App\Providers;
+
+use HTMLPurifier_HTMLDefinition;
+use Stevebauman\Purify\Facades\Purify;
+use Illuminate\Support\ServiceProvider;
+
+class PurifySetupProvider extends ServiceProvider
+{
+    const DEFINITION_ID = 'trix-editor';
+    const DEFINITION_REV = 1;
+
+    /**
+     * Bootstrap the application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        /** @var \HTMLPurifier $purifier */
+        $purifier = Purify::getPurifier();
+
+        /** @var \HTMLPurifier_Config $config */
+        $config = $purifier->config;
+
+        $config->set('HTML.DefinitionID', static::DEFINITION_ID);
+        $config->set('HTML.DefinitionRev', static::DEFINITION_REV);
+
+        if ($def = $config->maybeGetRawHTMLDefinition()) {
+            $this->setupDefinitions($def);
+        }
+
+        $purifier->config = $config;
+    }
+
+    /**
+     * Register the application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        //
+    }
+
+    /**
+     * Adds elements and attributes to the HTML purifier
+     * definition required by the trix editor.
+     *
+     * @param HTMLPurifier_HTMLDefinition $def
+     */
+    protected function setupDefinitions(HTMLPurifier_HTMLDefinition $def)
+    {
+        $def->addElement('figure', 'Block', 'Flow', 'Common');
+        $def->addElement('figcaption', 'Block', 'Flow', 'Common');
+        $def->addElement('span', 'Block', 'Flow', 'Common');
+
+        $def->addAttribute('figure', 'class', 'Text');
+        $def->addAttribute('figcaption', 'class', 'Text');
+
+        $def->addAttribute('a', 'rel', 'Text');
+        $def->addAttribute('a', 'data-trix-attachment', 'Text');
+    }
+}
+```
