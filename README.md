@@ -116,6 +116,8 @@ There's mutliple ways of creating custom rules on the HTML Purifier instance.
 
 Below is an example service provider you can use as a starting point to add rules to the instance. This provider gives compatibility with Basecamp's Trix WYSIWYG editor:
 
+Credit to [Antonio Primera](https://github.com/AntonioPrimera) for resolving some [HTML Purifier configuration issues](https://github.com/stevebauman/purify/issues/7) with trix.
+
 ```php
 <?php
 
@@ -171,15 +173,26 @@ class PurifySetupProvider extends ServiceProvider
      */
     protected function setupDefinitions(HTMLPurifier_HTMLDefinition $def)
     {
-        $def->addElement('figure', 'Block', 'Flow', 'Common');
-        $def->addElement('figcaption', 'Block', 'Flow', 'Common');
-        $def->addElement('span', 'Block', 'Flow', 'Common');
-
+        $def->addElement('figure', 'Inline', 'Inline', 'Common');
         $def->addAttribute('figure', 'class', 'Text');
+
+        $def->addElement('figcaption', 'Inline', 'Inline', 'Common');
         $def->addAttribute('figcaption', 'class', 'Text');
+        $def->addAttribute('figcaption', 'data-trix-placeholder', 'Text');
 
         $def->addAttribute('a', 'rel', 'Text');
+        $def->addAttribute('a', 'tabindex', 'Text');
+        $def->addAttribute('a', 'contenteditable', 'Enum#true,false');
         $def->addAttribute('a', 'data-trix-attachment', 'Text');
+        $def->addAttribute('a', 'data-trix-content-type', 'Text');
+        $def->addAttribute('a', 'data-trix-id', 'Number');
+
+        $def->addElement('span', 'Block', 'Flow', 'Common');
+        $def->addAttribute('span', 'data-trix-cursor-target', 'Enum#right,left');
+        $def->addAttribute('span', 'data-trix-serialize', 'Enum#true,false');
+
+        $def->addAttribute('img', 'data-trix-mutable', 'Enum#true,false');
+        $def->addAttribute('img', 'data-trix-store-key', 'Text');
     }
 }
 ```
