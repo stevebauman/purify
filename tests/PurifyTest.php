@@ -2,11 +2,12 @@
 
 namespace Stevebauman\Purify\Tests;
 
+use HTMLPurifier_ConfigSchema;
 use Stevebauman\Purify\Facades\Purify;
 
 class PurifyTest extends TestCase
 {
-    public $testInput = '<script>alert("Harmful Script");</script> <p style="a {color: blue;}" class="a-different-class">Test</p>';
+    public $testInput = '<script>alert("Harmful Script");</script><p style="a {color: blue;}" class="a-different-class">Test</p>';
 
     /** @test */
     public function input_is_sanitized()
@@ -46,6 +47,22 @@ class PurifyTest extends TestCase
         $expected = '<a href="http://www.google.ca" target="_blank" rel="noreferrer noopener">Google</a>';
 
         $this->assertEquals($expected, $cleanedTargetBlank);
+    }
+
+    /** @test */
+    public function purify_loads_default_config_when_null()
+    {
+        config(['purify.settings' => null]);
+
+        $this->assertEquals(HTMLPurifier_ConfigSchema::instance()->defaults, Purify::getSettings());
+    }
+
+    /** @test */
+    public function purify_loads_default_config_when_empty()
+    {
+        config(['purify.settings' => []]);
+
+        $this->assertEquals(HTMLPurifier_ConfigSchema::instance()->defaults, Purify::getSettings());
     }
 
     /** @test */
