@@ -82,7 +82,7 @@ class Purify
     {
         $settings = config('purify.settings');
 
-        if (count($settings) > 0) {
+        if (is_array($settings) && count($settings) > 0) {
             // If the serializer path exists, we need to validate that
             // the folder actually exists, and create it if not
             if (array_key_exists('Cache.SerializerPath', $settings)) {
