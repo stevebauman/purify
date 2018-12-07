@@ -101,6 +101,19 @@ $purifier = new HTMLPurifier();
 Purify::setPurifier($purifier);
 ```
 
+### Practices
+
+If you're looking into sanitization, you're likely wanting to sanitize inputted user HTML content
+that is then stored in your database to be rendered onto your application.
+
+In this scenario, it's likely best practice to sanitize on the *way out* instead of the on the *way in*.
+Remember, the **database doesn't care what text it contains**.
+
+This way you can allow anything to be inserted in the database, and have strong sanization rules on the way out.
+
+This helps tremendously if you change your sanization requirements later down the line,
+then all renered content will follow these sanization rules.
+
 ### Configuration
 
 Inside the configuration file, the entire settings array is passed directly
