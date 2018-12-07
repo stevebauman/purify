@@ -112,7 +112,7 @@ Remember, the **database doesn't care what text it contains**.
 This way you can allow anything to be inserted in the database, and have strong sanization rules on the way out.
 
 This helps tremendously if you change your sanization requirements later down the line,
-then all renered content will follow these sanization rules.
+then all rendered content will follow these sanization rules.
 
 ### Configuration
 
