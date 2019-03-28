@@ -24,7 +24,7 @@ class PurifyServiceProvider extends ServiceProvider
         $this->setupConfig($this->app);
 
         // Bind the new purify instance
-        $this->app->bind('purify', function ($app) {
+        $this->app->singleton('purify', function ($app) {
             return new Purify();
         });
     }
