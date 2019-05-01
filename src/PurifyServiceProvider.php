@@ -2,10 +2,10 @@
 
 namespace Stevebauman\Purify;
 
-use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Foundation\Application as LaravelApplication;
-use Laravel\Lumen\Application as LumenApplication;
+use Illuminate\Contracts\Container\Container;
+use Illuminate\Foundation\Application as Laravel;
+use Laravel\Lumen\Application as Lumen;
 
 class PurifyServiceProvider extends ServiceProvider
 {
@@ -21,9 +21,13 @@ class PurifyServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->setupConfig($this->app);
+        if ($this->app instanceof Laravel && $this->app->runningInConsole()) {
+            $this->publishes([__DIR__ . '/Config/purify.php' => config_path('purify.php'),], 'config');
+        } elseif ($this->app instanceof Lumen) {
+            $this->app->configure('purify');
+        }
 
-        // Bind the new purify instance
+        // Bind the new purify instance.
         $this->app->singleton('purify', function ($app) {
             return new Purify();
         });
@@ -37,14 +41,5 @@ class PurifyServiceProvider extends ServiceProvider
     public function provides()
     {
         return ['purify'];
-    }
-
-    protected function setupConfig(Container $app)
-    {
-        if ($app instanceof LaravelApplication && $app->runningInConsole()) {
-            $this->publishes([__DIR__ . '/Config/purify.php' => config_path('purify.php'),], 'config');
-        } elseif ($app instanceof LumenApplication) {
-            $app->configure('purify');
-        }
     }
 }
