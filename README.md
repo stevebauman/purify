@@ -24,25 +24,9 @@ To install Purify, run the following in the root of your project:
 composer require stevebauman/purify
 ```
 
-> **Note:** If you're using Laravel 5.5, ignore the below service provider and facade setup.
->
-> These are registered automatically.
-
-Then, insert the service provider in your `config/app.php`:
-
-```php
-Stevebauman\Purify\PurifyServiceProvider::class
-```
-    
-You can also use the facade if you wish:
-
-```php
-'Purify' => 'Stevebauman\Purify\Facades\Purify'
-```
-
 Then, publish the configuration file using:
 
-```cmd
+```bash
 php artisan vendor:publish --provider="Stevebauman\Purify\PurifyServiceProvider"
 ```
 
