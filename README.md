@@ -11,6 +11,11 @@ Purify is an HTML input sanitizer for Laravel.
 It utilizes [HTMLPurifier](https://github.com/ezyang/htmlpurifier)
 by [ezyang](https://github.com/ezyang).
 
+### Requirements
+
+- PHP >= 7.1
+- Laravel >= 5.5
+
 ### Installation
 
 To install Purify, run the following in the root of your project:
