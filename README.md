@@ -13,13 +13,11 @@ by [ezyang](https://github.com/ezyang).
 
 ### Installation
 
-To install Purify, insert the following require in your `composer.json` file:
+To install Purify, run the following in the root of your project:
 
-```json
-"stevebauman/purify": "2.0.*"
+```bash
+composer require stevebauman/purify
 ```
-
-Now run a `composer update` on your project source.
 
 > **Note:** If you're using Laravel 5.5, ignore the below service provider and facade setup.
 >
