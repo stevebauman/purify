@@ -2,6 +2,7 @@
 
 namespace Stevebauman\Purify\Tests;
 
+use HTMLPurifier;
 use HTMLPurifier_ConfigSchema;
 use Stevebauman\Purify\Facades\Purify;
 
@@ -50,32 +51,22 @@ class PurifyTest extends TestCase
     }
 
     /** @test */
-    public function purify_loads_default_config_when_null()
+    public function purify_loads_default_config()
     {
-        config(['purify.settings' => null]);
-
-        $this->assertEquals(HTMLPurifier_ConfigSchema::instance()->defaults, Purify::getSettings());
-    }
-
-    /** @test */
-    public function purify_loads_default_config_when_empty()
-    {
-        config(['purify.settings' => []]);
-
         $this->assertEquals(HTMLPurifier_ConfigSchema::instance()->defaults, Purify::getSettings());
     }
 
     /** @test */
     public function purifier_instance_is_accessible()
     {
-        $this->assertInstanceOf('HTMLPurifier', Purify::getPurifier());
+        $this->assertInstanceOf(HTMLPurifier::class, Purify::getPurifier());
     }
 
     /** @test */
     public function purifier_instance_can_be_set()
     {
-        $purifier = new \HTMLPurifier();
+        $purifier = new HTMLPurifier();
 
-        $this->assertInstanceOf('HTMLPurifier', Purify::setPurifier($purifier)->getPurifier());
+        $this->assertInstanceOf(HTMLPurifier::class, Purify::setPurifier($purifier)->getPurifier());
     }
 }

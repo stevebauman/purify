@@ -2,6 +2,8 @@
 
 namespace Stevebauman\Purify\Tests;
 
+use Stevebauman\Purify\Facades\Purify;
+use Stevebauman\Purify\PurifyServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 class TestCase extends BaseTestCase
@@ -9,14 +11,14 @@ class TestCase extends BaseTestCase
     protected function getPackageAliases($app)
     {
         return [
-            'Purify' => 'Stevebauman\Purify\Facades\Purify',
+            'Purify' => Purify::class,
         ];
     }
 
     protected function getPackageProviders($app)
     {
         return [
-            'Stevebauman\Purify\PurifyServiceProvider',
+            PurifyServiceProvider::class,
         ];
     }
 }
