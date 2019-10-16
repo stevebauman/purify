@@ -31,7 +31,6 @@
           "Stevebauman\\Purify\\Tests\\": "tests/"
         }
     },
-    "minimum-stability": "stable",
     "extra": {
         "laravel": {
             "providers": [
