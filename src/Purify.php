@@ -71,44 +71,12 @@ class Purify
     }
 
     /**
-     * Returns the configuration settings for HTML Purifier.
-     *
-     * If no configuration settings are retrieved, a default
-     * configuration schema is returned.
+     * Get the purifier settings.
      *
      * @return array
      */
     public function getSettings()
     {
-        $settings = config('purify.settings');
-
-        if (is_array($settings) && count($settings) > 0) {
-            // If the serializer path exists, we need to validate that
-            // the folder actually exists, and create it if not
-            if (array_key_exists('Cache.SerializerPath', $settings)) {
-                $this->validateCachePath($settings['Cache.SerializerPath']);
-            }
-
-            return $settings;
-        }
-
-        return HTMLPurifier_ConfigSchema::instance()->defaults;
-    }
-
-    /**
-     * Validates the HTML Purifiers cache path, and
-     * creates the folder if it does not exist.
-     *
-     * @param string $path
-     *
-     * @return bool
-     */
-    protected function validateCachePath($path)
-    {
-        if (!is_dir($path)) {
-            return mkdir($path);
-        }
-
-        return true;
+        return config('purify.settings', HTMLPurifier_ConfigSchema::instance()->defaults);
     }
 }
