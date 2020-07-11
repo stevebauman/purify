@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Facade;
 /**
  * Class Purify
  *
- * @static clean($input, array $config = null)
+ * @static array|string clean($input, array $config = null)
  */
 class Purify extends Facade
 {
