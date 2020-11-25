@@ -118,7 +118,7 @@ http://htmlpurifier.org/live/configdoc/plain.html
 
 #### Custom Configuration Rules
 
-There's mutliple ways of creating custom rules on the HTML Purifier instance.
+There's multiple ways of creating custom rules on the HTML Purifier instance.
 
 Below is an example service provider you can use as a starting point to add rules to the instance. This provider gives compatibility with Basecamp's Trix WYSIWYG editor:
 
