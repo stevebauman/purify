@@ -41,7 +41,7 @@ return [
         |
         */
 
-        'Cache.SerializerPath' => storage_path('purify'),
+        'Cache.SerializerPath' => storage_path('app/purify'),
 
         /*
         |--------------------------------------------------------------------------
