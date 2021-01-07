@@ -10,15 +10,11 @@ class TestCase extends BaseTestCase
 {
     protected function getPackageAliases($app)
     {
-        return [
-            'Purify' => Purify::class,
-        ];
+        return ['Purify' => Purify::class];
     }
 
     protected function getPackageProviders($app)
     {
-        return [
-            PurifyServiceProvider::class,
-        ];
+        return [PurifyServiceProvider::class];
     }
 }

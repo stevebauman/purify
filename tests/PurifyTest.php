@@ -3,15 +3,26 @@
 namespace Stevebauman\Purify\Tests;
 
 use HTMLPurifier;
-use HTMLPurifier_ConfigSchema;
+use Illuminate\Support\Facades\File;
 use Stevebauman\Purify\Facades\Purify;
+use Stevebauman\Purify\PurifyServiceProvider;
 
 class PurifyTest extends TestCase
 {
-    public $testInput = '<script>alert("Harmful Script");</script><p style="a {color: blue;}" class="a-different-class">Test</p>';
+    public $testInput = '<script>alert("Harmful Script");</script><p style="a {color: #0000ff;}" class="a-different-class">Test</p>';
 
-    /** @test */
-    public function input_is_sanitized()
+    public function test_configuration_file_is_published_and_storage_directory_exists()
+    {
+        $this->artisan('vendor:publish', ['--provider' => PurifyServiceProvider::class]);
+
+        $this->assertFileExists(config_path('purify.php'));
+        $this->assertDirectoryExists(storage_path('app/purify'));
+
+        File::delete(config_path('purify.php'));
+        File::deleteDirectory(storage_path('app/purify'));
+    }
+
+    public function test_input_is_sanitized()
     {
         $cleaned = Purify::clean($this->testInput);
 
@@ -20,8 +31,7 @@ class PurifyTest extends TestCase
         $this->assertEquals($expected, $cleaned);
     }
 
-    /** @test */
-    public function input_arrays_are_sanitized()
+    public function test_input_arrays_are_sanitized()
     {
         $cleaned = Purify::clean([$this->testInput, $this->testInput]);
 
@@ -30,8 +40,7 @@ class PurifyTest extends TestCase
         $this->assertEquals($expected, $cleaned);
     }
 
-    /** @test */
-    public function given_config_overwrites_default_config()
+    public function test_given_config_overwrites_default_config()
     {
         $input = '<a href="http://www.google.ca">Google</a>';
 
@@ -39,9 +48,7 @@ class PurifyTest extends TestCase
 
         $this->assertEquals($cleaned, $input);
 
-        $settings = [
-            'HTML.TargetBlank' => true,
-        ];
+        $settings = ['HTML.TargetBlank' => true];
 
         $cleanedTargetBlank = Purify::clean($input, $settings);
 
@@ -50,20 +57,12 @@ class PurifyTest extends TestCase
         $this->assertEquals($expected, $cleanedTargetBlank);
     }
 
-    /** @test */
-    public function purify_loads_default_config()
-    {
-        $this->assertEquals(HTMLPurifier_ConfigSchema::instance()->defaults, Purify::getSettings());
-    }
-
-    /** @test */
-    public function purifier_instance_is_accessible()
+    public function test_purifier_instance_is_accessible()
     {
         $this->assertInstanceOf(HTMLPurifier::class, Purify::getPurifier());
     }
 
-    /** @test */
-    public function purifier_instance_can_be_set()
+    public function test_purifier_instance_can_be_set()
     {
         $purifier = new HTMLPurifier();
 
