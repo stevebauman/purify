@@ -4,7 +4,6 @@ namespace Stevebauman\Purify;
 
 use HTMLPurifier;
 use HTMLPurifier_Config;
-use HTMLPurifier_ConfigSchema;
 
 class Purify
 {
@@ -17,19 +16,16 @@ class Purify
 
     /**
      * Constructor.
+     *
+     * @param array $config
      */
-    public function __construct()
+    public function __construct(array $config = [])
     {
-        $config = HTMLPurifier_Config::create($this->getSettings());
-
-        $this->setPurifier(new HTMLPurifier($config));
+        $this->purifier = $this->makeNewHtmlPurifier($config);
     }
 
     /**
-     * Cleans the specified input.
-     *
-     * If a configuration array is given, it **will not**
-     * merge your current configuration.
+     * Sanitize the given input.
      *
      * @param array|string $input
      * @param array|null   $config
@@ -38,16 +34,13 @@ class Purify
      */
     public function clean($input, array $config = null)
     {
-        if (is_array($input)) {
-            return $this->purifier->purifyArray($input, $config);
-        } else {
-            return $this->purifier->purify($input, $config);
-        }
+        return is_array($input)
+            ? $this->purifier->purifyArray($input, $config)
+            : $this->purifier->purify($input, $config);
     }
 
     /**
-     * Sets the current purifier to
-     * the specified purifier object.
+     * Set the underlying purifier instance.
      *
      * @param HTMLPurifier $purifier
      *
@@ -61,7 +54,7 @@ class Purify
     }
 
     /**
-     * Returns the HTML purifier object.
+     * Get the underlying purifier instance.
      *
      * @return HTMLPurifier
      */
@@ -71,12 +64,16 @@ class Purify
     }
 
     /**
-     * Get the purifier settings.
+     * Create a new HTMLPurifier instance.
      *
-     * @return array
+     * @param array $config
+     *
+     * @return HTMLPurifier
      */
-    public function getSettings()
+    protected function makeNewHtmlPurifier(array $config = [])
     {
-        return config('purify.settings', HTMLPurifier_ConfigSchema::instance()->defaults);
+        return new HTMLPurifier(
+            HTMLPurifier_Config::create($config)
+        );
     }
 }
