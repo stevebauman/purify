@@ -27,7 +27,7 @@ Then, publish the configuration file using:
 php artisan vendor:publish --provider="Stevebauman\Purify\PurifyServiceProvider"
 ```
 
-If you are using Lumen, you should copy the config file `purify.php` by hand, and add this line to your bootstrap/app.php:
+If you are using Lumen, you should copy the config file `purify.php` by hand, and add this line to your `bootstrap/app.php`:
 
 ```php
 $app->register(Stevebauman\Purify\PurifyServiceProvider::class);
