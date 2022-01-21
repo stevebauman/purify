@@ -40,7 +40,7 @@ $app->register(Stevebauman\Purify\PurifyServiceProvider::class);
 To clean a users input, simply use the clean method:
 
 ```php
-$input = '<script>alert("Harmful Script");</script> <p style="a style" class="text-gray-700">Test</p>';
+$input = '<script>alert("Harmful Script");</script> <p style="border:1px solid black" class="text-gray-700">Test</p>';
 
 // Returns '<p class="text-gray-700">Test</p>'
 $cleaned = Purify::clean($input);
@@ -52,8 +52,8 @@ Need to purify an array of user input? Just pass in an array:
 
 ```php
 $array = [
-    '<script>alert("Harmful Script");</script> <p style="a style" class="text-gray-700">Test</p>',
-    '<script>alert("Harmful Script");</script> <p style="a style" class="text-gray-700">Test</p>',
+    '<script>alert("Harmful Script");</script> <p style="border:1px solid black" class="text-gray-700">Test</p>',
+    '<script>alert("Harmful Script");</script> <p style="border:1px solid black" class="text-gray-700">Test</p>',
 ];
 
 $cleaned = Purify::clean($array);
