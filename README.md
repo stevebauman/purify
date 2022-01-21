@@ -40,11 +40,10 @@ $app->register(Stevebauman\Purify\PurifyServiceProvider::class);
 To clean a users input, simply use the clean method:
 
 ```php
-$input = '<script>alert("Harmful Script");</script> <p style="a style" class="a-different-class">Test</p>';
+$input = '<script>alert("Harmful Script");</script> <p style="a style" class="text-gray-700">Test</p>';
 
+// Returns '<p class="text-gray-700">Test</p>'
 $cleaned = Purify::clean($input);
-
-echo $cleaned; // Returns '<p class="a-different-class">Test</p>'
 ```
 
 ##### Cleaning an Array
@@ -53,13 +52,17 @@ Need to purify an array of user input? Just pass in an array:
 
 ```php
 $array = [
-    '<script>alert("Harmful Script");</script> <p style="a style" class="a-different-class">Test</p>',
-    '<script>alert("Harmful Script");</script> <p style="a style" class="a-different-class">Test</p>',
+    '<script>alert("Harmful Script");</script> <p style="a style" class="text-gray-700">Test</p>',
+    '<script>alert("Harmful Script");</script> <p style="a style" class="text-gray-700">Test</p>',
 ];
 
 $cleaned = Purify::clean($array);
 
-var_dump($cleaned); // Returns [0] => '<p class="a-different-class">Test</p>' [1] => '<p class="a-different-class">Test</p>'
+// array [
+//  '<p class="text-gray-700">Test</p>',
+//  '<p class="text-gray-700">Test</p>',
+// ]
+var_dump($cleaned);
 ```
 
 ##### Dynamic Configuration
@@ -72,8 +75,8 @@ $config = ['HTML.Allowed' => 'div,b,a[href]'];
 $cleaned = Purify::clean($input, $config);
 ```
 
-> **Note**: Configuration passed into the second parameter is
-> **not** merged with your current configuration.
+> **Note**: Configuration passed into the second parameter
+> is **not** merged with your current configuration.
 
 ```php
 $config = ['HTML.Allowed' => 'div,b,a[href]'];
