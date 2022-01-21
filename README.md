@@ -1,6 +1,6 @@
 # Purify
 
-[![Travis CI](https://img.shields.io/travis/stevebauman/purify.svg?style=flat-square)](https://travis-ci.org/stevebauman/purify)
+[![GitHub Actions](https://img.shields.io/github/workflow/status/stevebauman/purify/run-tests.svg?style=flat-square)](https://github.com/stevebauman/purify/actions)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/stevebauman/purify.svg?style=flat-square)](https://scrutinizer-ci.com/g/stevebauman/purify/?branch=master)
 [![Latest Stable Version](https://img.shields.io/packagist/v/stevebauman/purify.svg?style=flat-square)](https://packagist.org/packages/stevebauman/purify)
 [![Total Downloads](https://img.shields.io/packagist/dt/stevebauman/purify.svg?style=flat-square)](https://packagist.org/packages/stevebauman/purify)
@@ -13,8 +13,8 @@ by [ezyang](https://github.com/ezyang).
 
 ### Requirements
 
-- PHP >= 7.1
-- Laravel >= 5.5
+-   PHP >= 7.1
+-   Laravel >= 5.5
 
 ### Installation
 
@@ -99,7 +99,7 @@ Purify::setPurifier($purifier);
 If you're looking into sanitization, you're likely wanting to sanitize inputted user HTML content
 that is then stored in your database to be rendered onto your application.
 
-In this scenario, it's likely best practice to sanitize on the *way out* instead of the on the *way in*.
+In this scenario, it's likely best practice to sanitize on the _way out_ instead of the on the _way in_.
 Remember, the **database doesn't care what text it contains**.
 
 This way you can allow anything to be inserted in the database, and have strong sanization rules on the way out.
