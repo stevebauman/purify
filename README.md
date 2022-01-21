@@ -6,10 +6,7 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/stevebauman/purify.svg?style=flat-square)](https://packagist.org/packages/stevebauman/purify)
 [![License](https://img.shields.io/packagist/l/stevebauman/purify.svg?style=flat-square)](https://packagist.org/packages/stevebauman/purify)
 
-Purify is an HTML input sanitizer for Laravel.
-
-It utilizes [HTMLPurifier](https://github.com/ezyang/htmlpurifier)
-by [ezyang](https://github.com/ezyang).
+Purify is a Laravel wrapper around [HTMLPurifier](https://github.com/ezyang/htmlpurifier) by [ezyang](https://github.com/ezyang).
 
 ### Requirements
 
