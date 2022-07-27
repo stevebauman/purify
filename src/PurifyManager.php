@@ -3,10 +3,9 @@
 namespace Stevebauman\Purify;
 
 use HTMLPurifier_Config;
-use Illuminate\Contracts\Container\Container;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Manager;
 use InvalidArgumentException;
+use Stevebauman\Purify\Definitions\Definition;
 
 class PurifyManager extends Manager
 {
@@ -129,8 +128,10 @@ class PurifyManager extends Manager
         $htmlConfig->set('HTML.DefinitionRev', 1);
 
         if ($definition = $htmlConfig->maybeGetRawHTMLDefinition()) {
-            if (is_callable($callback = $this->container->make('config')->get('purify.definitions'))) {
-                call_user_func($callback, $definition);
+            $definitionsClass = $this->container->make('config')->get('purify.definitions');
+
+            if ($definitionsClass && is_a($definitionsClass, Definition::class, true)) {
+                $definitionsClass::apply($definition);
             }
         }
 

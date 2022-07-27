@@ -1,5 +1,7 @@
 <?php
 
+use Stevebauman\Purify\Definitions\Html5Definition;
+
 return [
 
     /*
@@ -38,7 +40,7 @@ return [
     'configs' => [
         'default' => [
             'Core.Encoding' => 'utf-8',
-            'HTML.Doctype' => 'XHTML 1.0 Strict',
+            'HTML.Doctype' => 'HTML 4.01 Transitional',
             'HTML.Allowed' => 'h1,h2,h3,h4,h5,h6,b,strong,i,em,a[href|title],ul,ol,li,p[style],br,span,img[width|height|alt|src]',
             'HTML.ForbiddenElements' => '',
             'CSS.AllowedProperties' => 'font,font-size,font-weight,font-style,font-family,text-decoration,padding-left,color,background-color,text-align',
@@ -52,9 +54,11 @@ return [
     | HTMLPurifier definitions
     |--------------------------------------------------------------------------
     |
-    | Here you may alter the HTML definitions used by HTMLPurifier. You can
-    | add elements and attributes as needed. We've already added a few
-    | common examples.
+    | Here you may specify a class that augments the HTML definitions used by
+    | HTMLPurifier. Additional HTML5 definitions are provided out of the box.
+    | When specifying a custom class, make sure it implements the interface:
+    |
+    |   \Stevebauman\Purify\Definitions\Definition
     |
     | Note that these definitions are applied to every Purifier instance.
     |
@@ -62,22 +66,7 @@ return [
     |
     */
 
-    'definitions' => function(HTMLPurifier_HTMLDefinition $definition) {
-        $definition->addElement('u', 'Inline', 'Inline', 'Common');
-        $definition->addElement('s', 'Inline', 'Inline', 'Common');
-        $definition->addElement('var', 'Inline', 'Inline', 'Common');
-        $definition->addElement('mark', 'Inline', 'Inline', 'Common');
-        $definition->addElement('sub',  'Inline', 'Inline', 'Common');
-        $definition->addElement('sup',  'Inline', 'Inline', 'Common');
-        
-        $definition->addElement('ins', 'Block', 'Flow', 'Common', ['cite' => 'URI', 'datetime' => 'CDATA']);
-        $definition->addElement('del', 'Block', 'Flow', 'Common', ['cite' => 'URI', 'datetime' => 'CDATA']);
-        $definition->addElement('address', 'Block', 'Flow', 'Common');
-        $definition->addElement('figure', 'Block', 'Optional: (figcaption, Flow) | (Flow, figcaption) | Flow', 'Common');
-        $definition->addElement('figcaption', 'Inline', 'Flow', 'Common');
-        
-        $definition->addAttribute('a', 'target', 'Enum#_blank,_self,_target,_top');
-    },
+    'definitions' => Html5Definition::class,
 
     /*
     |--------------------------------------------------------------------------

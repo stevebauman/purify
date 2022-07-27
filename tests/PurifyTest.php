@@ -2,9 +2,9 @@
 
 namespace Stevebauman\Purify\Tests;
 
-use HTMLPurifier;
 use HTMLPurifier_HTMLDefinition;
 use Illuminate\Support\Facades\File;
+use Stevebauman\Purify\Definitions\Definition;
 use Stevebauman\Purify\Facades\Purify;
 use Stevebauman\Purify\PurifyServiceProvider;
 
@@ -103,9 +103,7 @@ class PurifyTest extends TestCase
 
     public function test_definitions_are_applied()
     {
-        $this->app['config']->set('purify.definitions', function(HTMLPurifier_HTMLDefinition $definition) {
-            $definition->addElement('foo', 'Inline', 'Inline', 'Common');
-        });
+        $this->app['config']->set('purify.definitions', FooDefinition::class);
 
         $input = '<foo>Test</foo>';
 
@@ -119,5 +117,13 @@ class PurifyTest extends TestCase
 
         $this->assertEquals($expected1, $cleaned1);
         $this->assertEquals($expected2, $cleaned2);
+    }
+}
+
+class FooDefinition implements Definition
+{
+    public static function apply(HTMLPurifier_HTMLDefinition $definition)
+    {
+        $definition->addElement('foo', 'Inline', 'Inline', 'Common');
     }
 }
