@@ -42,7 +42,7 @@ To clean a users input, simply use the clean method:
 ```php
 $input = '<script>alert("Harmful Script");</script> <p style="border:1px solid black" class="text-gray-700">Test</p>';
 
-// Returns '<p class="text-gray-700">Test</p>'
+// Returns '<p>Test</p>'
 $cleaned = Purify::clean($input);
 ```
 
@@ -59,8 +59,8 @@ $array = [
 $cleaned = Purify::clean($array);
 
 // array [
-//  '<p class="text-gray-700">Test</p>',
-//  '<p class="text-gray-700">Test</p>',
+//  '<p>Test</p>',
+//  '<p>Test</p>',
 // ]
 var_dump($cleaned);
 ```
@@ -69,29 +69,13 @@ var_dump($cleaned);
 
 Need a different configuration for a single input? Pass in a configuration array into the second parameter:
 
-```php
-$config = ['HTML.Allowed' => 'div,b,a[href]'];
-
-$cleaned = Purify::clean($input, $config);
-```
-
 > **Note**: Configuration passed into the second parameter
-> is **not** merged with your current configuration.
+> is **not** merged with your default configuration.
 
 ```php
 $config = ['HTML.Allowed' => 'div,b,a[href]'];
 
-$cleaned = Purify::clean($input, $config);
-```
-
-##### Replacing the HTML Purifier instance
-
-Need to replace the HTML Purifier instance with your own? Call the `setPurifier()` method:
-
-```php
-$purifier = new HTMLPurifier();
-
-Purify::setPurifier($purifier);
+$cleaned = Purify::config($config)->clean($input);
 ```
 
 ### Practices
@@ -111,101 +95,10 @@ then all rendered content will follow these sanization rules.
 
 Inside the configuration file, the entire settings array is passed directly
 to the HTML Purifier configuration, so feel free to customize it however
-you wish. For the configuration documentation, please visit the
+you wish. You can specify multiple configuration sets as you desire.
+Simply call `Purify::config($name)->clean($input)` to use another set of configuration.
+
+For the configuration documentation, please visit the
 HTML Purifier Website:
 
 http://htmlpurifier.org/live/configdoc/plain.html
-
-#### Custom Configuration Rules
-
-There's multiple ways of creating custom rules on the HTML Purifier instance.
-
-Below is an example service provider you can use as a starting point to add rules to the instance. This provider gives compatibility with Basecamp's Trix WYSIWYG editor:
-
-Credit to [Antonio Primera](https://github.com/AntonioPrimera) for resolving some [HTML Purifier configuration issues](https://github.com/stevebauman/purify/issues/7) with trix.
-
-```php
-<?php
-
-namespace App\Providers;
-
-use HTMLPurifier_HTMLDefinition;
-use Stevebauman\Purify\Facades\Purify;
-use Illuminate\Support\ServiceProvider;
-
-class PurifySetupProvider extends ServiceProvider
-{
-    const DEFINITION_ID = 'trix-editor';
-    const DEFINITION_REV = 1;
-
-    /**
-     * Bootstrap the application services.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        /** @var \HTMLPurifier $purifier */
-        $purifier = Purify::getPurifier();
-
-        /** @var \HTMLPurifier_Config $config */
-        $config = $purifier->config;
-
-        $config->set('HTML.DefinitionID', static::DEFINITION_ID);
-        $config->set('HTML.DefinitionRev', static::DEFINITION_REV);
-
-        if ($def = $config->maybeGetRawHTMLDefinition()) {
-            $this->setupDefinitions($def);
-        }
-
-        $purifier->config = $config;
-    }
-
-    /**
-     * Register the application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        //
-    }
-
-    /**
-     * Adds elements and attributes to the HTML purifier
-     * definition required by the trix editor.
-     *
-     * @param HTMLPurifier_HTMLDefinition $def
-     */
-    protected function setupDefinitions(HTMLPurifier_HTMLDefinition $def)
-    {
-        $def->addElement('figure', 'Inline', 'Inline', 'Common');
-        $def->addAttribute('figure', 'class', 'Text');
-
-        $def->addElement('figcaption', 'Inline', 'Inline', 'Common');
-        $def->addAttribute('figcaption', 'class', 'Text');
-        $def->addAttribute('figcaption', 'data-trix-placeholder', 'Text');
-
-        $def->addAttribute('a', 'rel', 'Text');
-        $def->addAttribute('a', 'tabindex', 'Text');
-        $def->addAttribute('a', 'contenteditable', 'Enum#true,false');
-        $def->addAttribute('a', 'data-trix-attachment', 'Text');
-        $def->addAttribute('a', 'data-trix-content-type', 'Text');
-        $def->addAttribute('a', 'data-trix-id', 'Number');
-
-        $def->addElement('span', 'Block', 'Flow', 'Common');
-        $def->addAttribute('span', 'data-trix-cursor-target', 'Enum#right,left');
-        $def->addAttribute('span', 'data-trix-serialize', 'Enum#true,false');
-
-        $def->addAttribute('img', 'data-trix-mutable', 'Enum#true,false');
-        $def->addAttribute('img', 'data-trix-store-key', 'Text');
-    }
-}
-```
-
-After this service provider is created, make sure you insert it into your `providers` array in the `config/app.php`
-file, and update your `HTML.Allowed` string in the `config/purify.php` file.
-
-> **Note**: Remember that after this definition is created, and you have ran `Purify::clean()`, the definition will be cached, and you will have to clear it from your `storage/app/purify` folder if you want to make changes to the definition.
->
-> Otherwise, you will have to change the definition version number or ID for it to be re-cached.
