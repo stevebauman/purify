@@ -46,7 +46,7 @@ class PurifyManager extends Manager
             $config = $driver;
             $driver = md5(serialize($driver));
 
-            $this->config->set('purify.configs.' . $driver, $config);
+            $this->config->set("purify.configs.{$driver}", $config);
         }
 
         return parent::driver($driver);
