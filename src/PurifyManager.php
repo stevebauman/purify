@@ -2,7 +2,9 @@
 
 namespace Stevebauman\Purify;
 
+use HTMLPurifier_Config;
 use Illuminate\Contracts\Container\Container;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Manager;
 use InvalidArgumentException;
 
@@ -89,6 +91,17 @@ class PurifyManager extends Manager
     }
 
     /**
+     * Resolve the serializer filepath the given config name.
+     *
+     * @param string $name
+     * @return string
+     */
+    protected function resolveSerializerPath($name)
+    {
+        return $this->container->make('config')->get('purify.serializer') . DIRECTORY_SEPARATOR . $name;
+    }
+
+    /**
      * Create a new Purify instance with the given config.
      *
      * @param string $name
@@ -97,14 +110,30 @@ class PurifyManager extends Manager
      */
     protected function createInstance(string $name, array $config)
     {
-        $filesystem = $this->container->make('filesystem')->disk(
-            $this->container->make('config')->get('purify.serializer.disk', 'local')
+        if (! is_dir($serializerPath = $this->resolveSerializerPath($name))) {
+            mkdir($serializerPath, 0755, true);
+        }
+
+        return new Purify(
+            $this->createHtmlConfig(array_merge([
+                'Cache.SerializerPath' => $serializerPath,
+            ], $config))
         );
+    }
 
-        $path = $this->container->make('config')->get('purify.serializer.path') . DIRECTORY_SEPARATOR . $name;
+    protected function createHtmlConfig($config)
+    {
+        $htmlConfig = HTMLPurifier_Config::create($config);
 
-        return new Purify($filesystem, array_merge([
-            'Cache.SerializerPath' => $path,
-        ], $config));
+        $htmlConfig->set('HTML.DefinitionID', 'HTML-purify');
+        $htmlConfig->set('HTML.DefinitionRev', 1);
+
+        if ($definition = $htmlConfig->maybeGetRawHTMLDefinition()) {
+            if (is_callable($callback = $this->container->make('config')->get('purify.definitions'))) {
+                call_user_func($callback, $definition);
+            }
+        }
+
+        return $htmlConfig;
     }
 }

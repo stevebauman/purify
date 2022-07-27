@@ -9,11 +9,6 @@ use Illuminate\Filesystem\Filesystem;
 class Purify
 {
     /**
-     * @var Filesystem
-     */
-    protected $files;
-
-    /**
      * The HTML Purifier instance.
      *
      * @var HTMLPurifier
@@ -25,13 +20,9 @@ class Purify
      *
      * @param array $config
      */
-    public function __construct(Filesystem $files, array $config)
+    public function __construct(HTMLPurifier_Config $config)
     {
-        $this->files = $files;
-
-        $this->purifier = new HTMLPurifier(
-            HTMLPurifier_Config::create($config)
-        );
+        $this->purifier = new HTMLPurifier($config);
     }
 
     /**
@@ -43,19 +34,8 @@ class Purify
      */
     public function clean($input)
     {
-        $this->ensureCacheSerializePathExists();
-
         return is_array($input)
             ? $this->purifier->purifyArray($input)
             : $this->purifier->purify($input);
-    }
-
-    protected function ensureCacheSerializePathExists()
-    {
-        $path = $this->purifier->config->get('Cache.SerializerPath');
-
-        if (! $this->files->exists($path)) {
-            $this->files->makeDirectory($path);
-        }
     }
 }

@@ -50,6 +50,26 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | HTMLPurifier definitions
+    |--------------------------------------------------------------------------
+    |
+    | Here you may alter the HTML definitions used by HTMLPurifier. You can
+    | add elements and attributes as needed. We've already added a few
+    | common examples.
+    |
+    | Note that these definitions are applied to every Purifier instance.
+    |
+    | Documentation: http://htmlpurifier.org/docs/enduser-customize.html
+    |
+    */
+
+    'definitions' => function(HTMLPurifier_HTMLDefinition $definition) {
+        $definition->addElement('u', 'Inline', 'Inline', 'Common');
+        $definition->addAttribute('a', 'target', 'Enum#_blank,_self,_target,_top');
+    },
+
+    /*
+    |--------------------------------------------------------------------------
     | Serializer location
     |--------------------------------------------------------------------------
     |
@@ -59,9 +79,6 @@ return [
     |
     */
 
-    'serializer' => [
-        'disk' => 'local',
-        'path' => storage_path('app/purify'),
-    ],
+    'serializer' => storage_path('app/purify'),
 
 ];

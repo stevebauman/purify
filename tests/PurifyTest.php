@@ -3,6 +3,7 @@
 namespace Stevebauman\Purify\Tests;
 
 use HTMLPurifier;
+use HTMLPurifier_HTMLDefinition;
 use Illuminate\Support\Facades\File;
 use Stevebauman\Purify\Facades\Purify;
 use Stevebauman\Purify\PurifyServiceProvider;
@@ -98,5 +99,25 @@ class PurifyTest extends TestCase
         $this->assertEquals($expected1, $cleaned1);
         $this->assertEquals($expected2, $cleaned2);
         $this->assertEquals($expected3, $cleaned3);
+    }
+
+    public function test_definitions_are_applied()
+    {
+        $this->app['config']->set('purify.definitions', function(HTMLPurifier_HTMLDefinition $definition) {
+            $definition->addElement('foo', 'Inline', 'Inline', 'Common');
+        });
+
+        $input = '<foo>Test</foo>';
+
+        $cleaned1 = Purify::driver()->clean($input);
+        $cleaned2 = Purify::config([
+            'HTML.Allowed' => 'foo',
+        ])->clean($input);
+
+        $expected1 = 'Test';
+        $expected2 = '<foo>Test</foo>';
+
+        $this->assertEquals($expected1, $cleaned1);
+        $this->assertEquals($expected2, $cleaned2);
     }
 }
