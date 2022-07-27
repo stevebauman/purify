@@ -96,11 +96,14 @@ class PurifyManager extends Manager
      */
     protected function createInstance(string $name, array $config)
     {
-        return new Purify(
-            $this->container->make('files'),
-            array_merge([
-                'Cache.SerializerPath' => $this->config->get('purify.cache') . DIRECTORY_SEPARATOR . $name,
-            ], $config)
+        $filesystem = $this->container->make('filesystem')->disk(
+            $this->config->get('purify.serializer.disk', 'local')
         );
+
+        $path = $this->config->get('purify.serializer.path') . DIRECTORY_SEPARATOR . $name;
+
+        return new Purify($filesystem, array_merge([
+            'Cache.SerializerPath' => $path,
+        ], $config));
     }
 }

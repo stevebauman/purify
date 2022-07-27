@@ -50,15 +50,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Cache location
+    | Serializer location
     |--------------------------------------------------------------------------
     |
-    | The location where HTMLPurifier can store its temporary cache files.
+    | The location where HTMLPurifier can store its temporary serializer files.
     | The filepath should be accessible and writable by the web server.
     | A good place for this is in the framework's own storage path.
     |
     */
 
-    'cache' => storage_path('app/purify'),
+    'serializer' => [
+        'disk' => 'local',
+        'path' => storage_path('app/purify'),
+    ],
 
 ];
