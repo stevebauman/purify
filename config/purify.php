@@ -64,6 +64,18 @@ return [
 
     'definitions' => function(HTMLPurifier_HTMLDefinition $definition) {
         $definition->addElement('u', 'Inline', 'Inline', 'Common');
+        $definition->addElement('s', 'Inline', 'Inline', 'Common');
+        $definition->addElement('var', 'Inline', 'Inline', 'Common');
+        $definition->addElement('mark', 'Inline', 'Inline', 'Common');
+        $definition->addElement('sub',  'Inline', 'Inline', 'Common');
+        $definition->addElement('sup',  'Inline', 'Inline', 'Common');
+        
+        $definition->addElement('ins', 'Block', 'Flow', 'Common', ['cite' => 'URI', 'datetime' => 'CDATA']);
+        $definition->addElement('del', 'Block', 'Flow', 'Common', ['cite' => 'URI', 'datetime' => 'CDATA']);
+        $definition->addElement('address', 'Block', 'Flow', 'Common');
+        $definition->addElement('figure', 'Block', 'Optional: (figcaption, Flow) | (Flow, figcaption) | Flow', 'Common');
+        $definition->addElement('figcaption', 'Inline', 'Flow', 'Common');
+        
         $definition->addAttribute('a', 'target', 'Enum#_blank,_self,_target,_top');
     },
 
