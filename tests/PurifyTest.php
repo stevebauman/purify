@@ -11,12 +11,11 @@ class PurifyTest extends TestCase
 {
     public $testInput = '<script>alert("Harmful Script");</script><p style="a {color: #0000ff;}" class="a-different-class">Test</p>';
 
-    public function test_configuration_file_is_published_and_storage_directory_exists()
+    public function test_configuration_file_is_published()
     {
         $this->artisan('vendor:publish', ['--provider' => PurifyServiceProvider::class]);
 
         $this->assertFileExists(config_path('purify.php'));
-        $this->assertDirectoryExists(storage_path('app/purify'));
 
         File::delete(config_path('purify.php'));
         File::deleteDirectory(storage_path('app/purify'));
@@ -26,7 +25,7 @@ class PurifyTest extends TestCase
     {
         $cleaned = Purify::clean($this->testInput);
 
-        $expected = '<p class="a-different-class">Test</p>';
+        $expected = '<p>Test</p>';
 
         $this->assertEquals($expected, $cleaned);
     }
@@ -35,37 +34,69 @@ class PurifyTest extends TestCase
     {
         $cleaned = Purify::clean([$this->testInput, $this->testInput]);
 
-        $expected = ['<p class="a-different-class">Test</p>', '<p class="a-different-class">Test</p>'];
+        $expected = ['<p>Test</p>', '<p>Test</p>'];
 
         $this->assertEquals($expected, $cleaned);
     }
 
-    public function test_given_config_overwrites_default_config()
+    public function test_config_alias_is_available()
+    {
+        $instance = Purify::config();
+
+        $this->assertInstanceOf(\Stevebauman\Purify\Purify::class, $instance);
+    }
+
+    public function test_config_set_can_be_chosen()
     {
         $input = '<a href="http://www.google.ca">Google</a>';
 
-        $cleaned = Purify::clean($input);
+        $this->app['config']->set('purify.configs.foo', [
+            'HTML.TargetBlank' => true
+        ]);
 
-        $this->assertEquals($cleaned, $input);
-
-        $settings = ['HTML.TargetBlank' => true];
-
-        $cleanedTargetBlank = Purify::clean($input, $settings);
+        $cleaned = Purify::driver('foo')->clean($input);
 
         $expected = '<a href="http://www.google.ca" target="_blank" rel="noreferrer noopener">Google</a>';
 
-        $this->assertEquals($expected, $cleanedTargetBlank);
+        $this->assertEquals($expected, $cleaned);
     }
 
-    public function test_purifier_instance_is_accessible()
+    public function test_config_can_be_provided_inline()
     {
-        $this->assertInstanceOf(HTMLPurifier::class, Purify::getPurifier());
+        $input = '<a href="http://www.google.ca">Google</a>';
+
+        $cleaned = Purify::config([
+            'HTML.TargetBlank' => true
+        ])->clean($input);
+
+        $expected = '<a href="http://www.google.ca" target="_blank" rel="noreferrer noopener">Google</a>';
+
+        $this->assertEquals($expected, $cleaned);
     }
 
-    public function test_purifier_instance_can_be_set()
+    public function test_configs_are_independent()
     {
-        $purifier = new HTMLPurifier();
+        $input = '<a href="http://www.google.ca">Google</a>';
 
-        $this->assertInstanceOf(HTMLPurifier::class, Purify::setPurifier($purifier)->getPurifier());
+        $this->app['config']->set('purify.configs.foo', [
+            'HTML.TargetBlank' => true,
+        ]);
+
+        $this->app['config']->set('purify.configs.bar', [
+            'HTML.TargetBlank' => true,
+            'HTML.TargetNoopener' => false,
+        ]);
+
+        $cleaned1 = Purify::driver()->clean($input);
+        $cleaned2 = Purify::driver('foo')->clean($input);
+        $cleaned3 = Purify::driver('bar')->clean($input);
+
+        $expected1 = '<a href="http://www.google.ca">Google</a>';
+        $expected2 = '<a href="http://www.google.ca" target="_blank" rel="noreferrer noopener">Google</a>';
+        $expected3 = '<a href="http://www.google.ca" target="_blank" rel="noreferrer">Google</a>';
+
+        $this->assertEquals($expected1, $cleaned1);
+        $this->assertEquals($expected2, $cleaned2);
+        $this->assertEquals($expected3, $cleaned3);
     }
 }
