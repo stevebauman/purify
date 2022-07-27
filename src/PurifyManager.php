@@ -2,6 +2,7 @@
 
 namespace Stevebauman\Purify;
 
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Manager;
 use InvalidArgumentException;
 
@@ -27,7 +28,7 @@ class PurifyManager extends Manager
      */
     public function getDefaultDriver()
     {
-        return $this->config->get('purify.default');
+        return $this->container->make('config')->get('purify.default');
     }
 
     /**
@@ -46,7 +47,7 @@ class PurifyManager extends Manager
             $config = $driver;
             $driver = md5(serialize($driver));
 
-            $this->config->set("purify.configs.{$driver}", $config);
+            $this->container->make('config')->set("purify.configs.{$driver}", $config);
         }
 
         return parent::driver($driver);
@@ -84,7 +85,7 @@ class PurifyManager extends Manager
      */
     protected function resolveConfig($name)
     {
-        return $this->config->get("purify.configs.{$name}");
+        return $this->container->make('config')->get("purify.configs.{$name}");
     }
 
     /**
@@ -97,10 +98,10 @@ class PurifyManager extends Manager
     protected function createInstance(string $name, array $config)
     {
         $filesystem = $this->container->make('filesystem')->disk(
-            $this->config->get('purify.serializer.disk', 'local')
+            $this->container->make('config')->get('purify.serializer.disk', 'local')
         );
 
-        $path = $this->config->get('purify.serializer.path') . DIRECTORY_SEPARATOR . $name;
+        $path = $this->container->make('config')->get('purify.serializer.path') . DIRECTORY_SEPARATOR . $name;
 
         return new Purify($filesystem, array_merge([
             'Cache.SerializerPath' => $path,
