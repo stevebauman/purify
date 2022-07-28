@@ -121,22 +121,25 @@ class TrixPurifierDefinitions implements Definition
 {
     public static function apply(HTMLPurifier_HTMLDefinition $definition)
     {
-        $def->addElement('figure', 'Inline', 'Inline', 'Common');
-        $def->addAttribute('figure', 'class', 'Text');
-        $def->addElement('figcaption', 'Inline', 'Inline', 'Common');
-        $def->addAttribute('figcaption', 'class', 'Text');
-        $def->addAttribute('figcaption', 'data-trix-placeholder', 'Text');
-        $def->addAttribute('a', 'rel', 'Text');
-        $def->addAttribute('a', 'tabindex', 'Text');
-        $def->addAttribute('a', 'contenteditable', 'Enum#true,false');
-        $def->addAttribute('a', 'data-trix-attachment', 'Text');
-        $def->addAttribute('a', 'data-trix-content-type', 'Text');
-        $def->addAttribute('a', 'data-trix-id', 'Number');
-        $def->addElement('span', 'Block', 'Flow', 'Common');
-        $def->addAttribute('span', 'data-trix-cursor-target', 'Enum#right,left');
-        $def->addAttribute('span', 'data-trix-serialize', 'Enum#true,false');
-        $def->addAttribute('img', 'data-trix-mutable', 'Enum#true,false');
-        $def->addAttribute('img', 'data-trix-store-key', 'Text');
+        $definition->addElement('figure', 'Inline', 'Inline', 'Common');
+        $definition->addAttribute('figure', 'class', 'Text');
+        $definition->addElement('figcaption', 'Inline', 'Inline', 'Common');
+        $definition->addAttribute('figcaption', 'class', 'Text');
+        $definition->addAttribute('figcaption', 'data-trix-placeholder', 'Text');
+        
+        $definition->addAttribute('a', 'rel', 'Text');
+        $definition->addAttribute('a', 'tabindex', 'Text');
+        $definition->addAttribute('a', 'contenteditable', 'Enum#true,false');
+        $definition->addAttribute('a', 'data-trix-attachment', 'Text');
+        $definition->addAttribute('a', 'data-trix-content-type', 'Text');
+        $definition->addAttribute('a', 'data-trix-id', 'Number');
+        
+        $definition->addElement('span', 'Block', 'Flow', 'Common');
+        $definition->addAttribute('span', 'data-trix-cursor-target', 'Enum#right,left');
+        $definition->addAttribute('span', 'data-trix-serialize', 'Enum#true,false');
+        
+        $definition->addAttribute('img', 'data-trix-mutable', 'Enum#true,false');
+        $definition->addAttribute('img', 'data-trix-store-key', 'Text');
     }
 }
 ```
