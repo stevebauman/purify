@@ -93,12 +93,50 @@ then all rendered content will follow these sanization rules.
 
 ### Configuration
 
-Inside the configuration file, the entire settings array is passed directly
-to the HTML Purifier configuration, so feel free to customize it however
-you wish. You can specify multiple configuration sets as you desire.
+Inside the configuration file, multiple HTMLPurifier configuration sets
+can be specified, similar to Laravel's built-in `database`, `mail` and `logging` config.
 Simply call `Purify::config($name)->clean($input)` to use another set of configuration.
 
-For the configuration documentation, please visit the
-HTML Purifier Website:
+For HTMLPurifier configuration documentation, please visit the HTMLPurifier Website:
 
 http://htmlpurifier.org/live/configdoc/plain.html
+
+#### Custom HTML definitions
+
+The `Doctype` setting denotes the schema to ultimately abide to. You might want to extend these schema definitions
+to support custom elements or attributes (e.g. `<foo>...</foo>`, or `<span foo="...">`) by specifying a custom "definitions" class in config.
+We've already provided you with additional HTML5 definitions as HTMLPurifier does not (yet) support it out of the box.
+
+Here's an example for customizing the definitions in order to support Basecamp's Trix WYSIWYG editor (credit to [Antonio Primera](https://github.com/stevebauman/purify/issues/7)):
+
+```php
+<?php
+
+namespace App;
+
+use HTMLPurifier_HTMLDefinition;
+use Stevebauman\Purify\Definitions\Definition;
+
+class TrixPurifierDefinitions implements Definition
+{
+    public static function apply(HTMLPurifier_HTMLDefinition $definition)
+    {
+        $def->addElement('figure', 'Inline', 'Inline', 'Common');
+        $def->addAttribute('figure', 'class', 'Text');
+        $def->addElement('figcaption', 'Inline', 'Inline', 'Common');
+        $def->addAttribute('figcaption', 'class', 'Text');
+        $def->addAttribute('figcaption', 'data-trix-placeholder', 'Text');
+        $def->addAttribute('a', 'rel', 'Text');
+        $def->addAttribute('a', 'tabindex', 'Text');
+        $def->addAttribute('a', 'contenteditable', 'Enum#true,false');
+        $def->addAttribute('a', 'data-trix-attachment', 'Text');
+        $def->addAttribute('a', 'data-trix-content-type', 'Text');
+        $def->addAttribute('a', 'data-trix-id', 'Number');
+        $def->addElement('span', 'Block', 'Flow', 'Common');
+        $def->addAttribute('span', 'data-trix-cursor-target', 'Enum#right,left');
+        $def->addAttribute('span', 'data-trix-serialize', 'Enum#true,false');
+        $def->addAttribute('img', 'data-trix-mutable', 'Enum#true,false');
+        $def->addAttribute('img', 'data-trix-store-key', 'Text');
+    }
+}
+```
