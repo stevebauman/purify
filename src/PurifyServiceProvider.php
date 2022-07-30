@@ -18,10 +18,10 @@ class PurifyServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->mergeConfigFrom(__DIR__.'/../config/purify.php', 'purify');
+
         $this->app->singleton('purify', function ($app) {
-            return new Purify(
-                $app['config']['purify.settings'] ?? $this->getDefaultPurifierConfig()
-            );
+            return new PurifyManager($app);
         });
     }
 
@@ -35,35 +35,10 @@ class PurifyServiceProvider extends ServiceProvider
         if ($this->app instanceof Laravel && $this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__ . '/../config/purify.php' => config_path('purify.php'),
-                $this->getDefaultPurifierDefinitionCacheDirectory() => storage_path('app/purify'),
             ], 'config');
         } elseif ($this->app instanceof Lumen) {
             $this->app->configure('purify');
         }
-    }
-
-    /**
-     * Get the default HTML Purifier definition cache directory.
-     *
-     * @return string
-     */
-    protected function getDefaultPurifierDefinitionCacheDirectory()
-    {
-        $defaultConfig = HTMLPurifier_Config::create($this->getDefaultPurifierConfig());
-
-        $serializer = new HTMLPurifier_DefinitionCache_Serializer(null);
-
-        return $serializer->generateBaseDirectoryPath($defaultConfig);
-    }
-
-    /**
-     * Get the default HTML Purifier configuration.
-     *
-     * @return array
-     */
-    protected function getDefaultPurifierConfig()
-    {
-        return HTMLPurifier_ConfigSchema::instance()->defaults;
     }
 
     /**

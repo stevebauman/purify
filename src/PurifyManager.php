@@ -1,0 +1,140 @@
+<?php
+
+namespace Stevebauman\Purify;
+
+use HTMLPurifier_Config;
+use Illuminate\Support\Manager;
+use InvalidArgumentException;
+use Stevebauman\Purify\Definitions\Definition;
+
+class PurifyManager extends Manager
+{
+    /**
+     * Convenience alias for driver().
+     *
+     * @param string|array|null $config
+     * @return mixed
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function config($config = null)
+    {
+        return $this->driver($config);
+    }
+
+    /**
+     * Get the default driver name.
+     *
+     * @return string
+     */
+    public function getDefaultDriver()
+    {
+        return $this->container->make('config')->get('purify.default');
+    }
+
+    /**
+     * Get a driver instance.
+     *
+     * @param string|array|null $driver
+     * @return mixed
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function driver($driver = null)
+    {
+        // First, we will check if the provided "driver" is an array.
+        // If so, we're dealing with inline defined config.
+        if (is_array($driver)) {
+            $config = $driver;
+            $driver = md5(serialize($driver));
+
+            $this->container->make('config')->set("purify.configs.{$driver}", $config);
+        }
+
+        return parent::driver($driver);
+    }
+
+    /**
+     * Create a new driver instance.
+     *
+     * @param string|array $driver
+     * @return mixed
+     *
+     * @throws \InvalidArgumentException
+     */
+    protected function createDriver($driver)
+    {
+        // First, we will determine if a custom driver creator exists for the given driver and
+        // if it does not we will check for a creator method for the driver. Custom creator
+        // callbacks allow developers to build their own "drivers" easily using Closures.
+        if (isset($this->customCreators[$driver])) {
+            return $this->callCustomCreator($driver);
+        }
+
+        if ($config = $this->resolveConfig($driver)) {
+            return $this->createInstance($driver, $config);
+        }
+
+        throw new InvalidArgumentException("Purify config [$driver] not defined.");
+    }
+
+    /**
+     * Resolve the configuration for the given config name.
+     *
+     * @param string $name
+     * @return array
+     */
+    protected function resolveConfig($name)
+    {
+        return $this->container->make('config')->get("purify.configs.{$name}");
+    }
+
+    /**
+     * Resolve the serializer filepath the given config name.
+     *
+     * @param string $name
+     * @return string
+     */
+    protected function resolveSerializerPath($name)
+    {
+        return $this->container->make('config')->get('purify.serializer') . DIRECTORY_SEPARATOR . $name;
+    }
+
+    /**
+     * Create a new Purify instance with the given config.
+     *
+     * @param string $name
+     * @param array $config
+     * @return Purify
+     */
+    protected function createInstance(string $name, array $config)
+    {
+        if (! is_dir($serializerPath = $this->resolveSerializerPath($name))) {
+            mkdir($serializerPath, 0755, true);
+        }
+
+        return new Purify(
+            $this->createHtmlConfig(array_merge([
+                'Cache.SerializerPath' => $serializerPath,
+            ], $config))
+        );
+    }
+
+    protected function createHtmlConfig($config)
+    {
+        $htmlConfig = HTMLPurifier_Config::create($config);
+
+        $htmlConfig->set('HTML.DefinitionID', 'HTML-purify');
+        $htmlConfig->set('HTML.DefinitionRev', 1);
+
+        if ($definition = $htmlConfig->maybeGetRawHTMLDefinition()) {
+            $definitionsClass = $this->container->make('config')->get('purify.definitions');
+
+            if ($definitionsClass && is_a($definitionsClass, Definition::class, true)) {
+                $definitionsClass::apply($definition);
+            }
+        }
+
+        return $htmlConfig;
+    }
+}
