@@ -2,12 +2,9 @@
 
 namespace Stevebauman\Purify;
 
-use HTMLPurifier_Config;
-use HTMLPurifier_ConfigSchema;
-use HTMLPurifier_DefinitionCache_Serializer;
-use Laravel\Lumen\Application as Lumen;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Foundation\Application as Laravel;
+use Illuminate\Support\ServiceProvider;
+use Laravel\Lumen\Application as Lumen;
 
 class PurifyServiceProvider extends ServiceProvider
 {
@@ -34,7 +31,7 @@ class PurifyServiceProvider extends ServiceProvider
     {
         if ($this->app instanceof Laravel && $this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../config/purify.php' => config_path('purify.php'),
+                __DIR__.'/../config/purify.php' => config_path('purify.php'),
             ], 'config');
         } elseif ($this->app instanceof Lumen) {
             $this->app->configure('purify');
