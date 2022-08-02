@@ -78,6 +78,16 @@ $config = ['HTML.Allowed' => 'div,b,a[href]'];
 $cleaned = Purify::config($config)->clean($input);
 ```
 
+### Configuration
+
+Inside the configuration file, multiple HTMLPurifier configuration sets
+can be specified, similar to Laravel's built-in `database`, `mail` and `logging` config.
+Simply call `Purify::config($name)->clean($input)` to use another set of configuration.
+
+For HTMLPurifier configuration documentation, please visit the HTMLPurifier Website:
+
+http://htmlpurifier.org/live/configdoc/plain.html
+
 ### Practices
 
 If you're looking into sanitization, you're likely wanting to sanitize inputted user HTML content
@@ -88,18 +98,30 @@ Remember, the **database doesn't care what text it contains**.
 
 This way you can allow anything to be inserted in the database, and have strong sanization rules on the way out.
 
+To accomplish this you may use the provided `PurifyHtmlOnGet` cast class on your Eloquent model:
+
+```php
+use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
+
+class MyModel extens Model
+{
+    protected $casts = [
+        'my_column' => PurifyHtmlOnGet::class,
+    ];
+}
+```
+
+You can even configure the configuration set used when casting:
+```php
+protected $casts = [
+    'my_column' => PurifyHtmlOnGet::class.':my_custom_set',
+];
+```
+
 This helps tremendously if you change your sanization requirements later down the line,
 then all rendered content will follow these sanization rules.
 
-### Configuration
-
-Inside the configuration file, multiple HTMLPurifier configuration sets
-can be specified, similar to Laravel's built-in `database`, `mail` and `logging` config.
-Simply call `Purify::config($name)->clean($input)` to use another set of configuration.
-
-For HTMLPurifier configuration documentation, please visit the HTMLPurifier Website:
-
-http://htmlpurifier.org/live/configdoc/plain.html
+If you'd like to purify HTML while setting the value, you can use the inverse `PurifyHtmlOnSet` cast instead.
 
 #### Custom HTML definitions
 
