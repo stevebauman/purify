@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'default' => 'core',
+    'default' => 'default',
 
     /*
     |--------------------------------------------------------------------------
@@ -39,7 +39,7 @@ return [
 
     'configs' => [
 
-        'core' => [
+        'default' => [
             'Core.Encoding' => 'utf-8',
             'HTML.Doctype' => 'HTML 4.01 Transitional',
             'HTML.Allowed' => 'h1,h2,h3,h4,h5,h6,b,strong,i,em,a[href|title],ul,ol,li,p[style],br,span,img[width|height|alt|src]',
