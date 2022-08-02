@@ -6,6 +6,13 @@ use HTMLPurifier_HTMLDefinition;
 
 class Html5Definition implements Definition
 {
+    /**
+     * Apply rules to the HTML Purifier definition.
+     *
+     * @param HTMLPurifier_HTMLDefinition $definition
+     *
+     * @return void
+     */
     public static function apply(HTMLPurifier_HTMLDefinition $definition)
     {
         // http://developers.whatwg.org/sections.html

@@ -44,8 +44,9 @@ class PurifyManager extends Manager
      */
     public function driver($driver = null)
     {
-        // First, we will check if the provided "driver" is an array.
-        // If so, we're dealing with inline defined config.
+        // First, we will check if the provided "driver" is an array. If so,
+        // we're dealing with an inline defined config. We'll serialize it
+        // into a string to dynamically define and set its configuration.
         if (is_array($driver)) {
             $config = $driver;
             $driver = md5(serialize($driver));
@@ -126,6 +127,13 @@ class PurifyManager extends Manager
         );
     }
 
+    /**
+     * Create an HTML purifier configuration instance.
+     *
+     * @param array $config
+     *
+     * @return HTMLPurifier_Config
+     */
     protected function createHtmlConfig($config)
     {
         $htmlConfig = HTMLPurifier_Config::create($config);
