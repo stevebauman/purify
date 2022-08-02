@@ -48,7 +48,7 @@ return [
             'AutoFormat.AutoParagraph' => false,
             'AutoFormat.RemoveEmpty' => false,
         ],
-        
+
     ],
 
     /*
