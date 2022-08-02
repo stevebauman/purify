@@ -4,7 +4,6 @@ namespace Stevebauman\Purify;
 
 use HTMLPurifier;
 use HTMLPurifier_Config;
-use Illuminate\Filesystem\Filesystem;
 
 class Purify
 {
