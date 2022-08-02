@@ -2,14 +2,9 @@
 
 namespace Stevebauman\Purify\Tests;
 
-use HTMLPurifier_HTMLDefinition;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\File;
 use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
 use Stevebauman\Purify\Casts\PurifyHtmlOnSet;
-use Stevebauman\Purify\Definitions\Definition;
-use Stevebauman\Purify\Facades\Purify;
-use Stevebauman\Purify\PurifyServiceProvider;
 
 class CastsTest extends TestCase
 {
@@ -80,7 +75,6 @@ class PurifyingFooOnGetModel extends Model
     ];
 }
 
-
 class PurifyingDefaultOnSetModel extends Model
 {
     protected $casts = [
@@ -94,4 +88,3 @@ class PurifyingFooOnSetModel extends Model
         'body' => PurifyHtmlOnSet::class.':foo',
     ];
 }
-

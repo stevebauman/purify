@@ -13,6 +13,7 @@ class PurifyManager extends Manager
      * Convenience alias for driver().
      *
      * @param string|array|null $config
+     *
      * @return mixed
      *
      * @throws \InvalidArgumentException
@@ -36,6 +37,7 @@ class PurifyManager extends Manager
      * Get a driver instance.
      *
      * @param string|array|null $driver
+     *
      * @return mixed
      *
      * @throws \InvalidArgumentException
@@ -58,6 +60,7 @@ class PurifyManager extends Manager
      * Create a new driver instance.
      *
      * @param string|array $driver
+     *
      * @return mixed
      *
      * @throws \InvalidArgumentException
@@ -82,6 +85,7 @@ class PurifyManager extends Manager
      * Resolve the configuration for the given config name.
      *
      * @param string $name
+     *
      * @return array
      */
     protected function resolveConfig($name)
@@ -93,18 +97,20 @@ class PurifyManager extends Manager
      * Resolve the serializer filepath the given config name.
      *
      * @param string $name
+     *
      * @return string
      */
     protected function resolveSerializerPath($name)
     {
-        return $this->container->make('config')->get('purify.serializer') . DIRECTORY_SEPARATOR . $name;
+        return $this->container->make('config')->get('purify.serializer').DIRECTORY_SEPARATOR.$name;
     }
 
     /**
      * Create a new Purify instance with the given config.
      *
      * @param string $name
-     * @param array $config
+     * @param array  $config
+     *
      * @return Purify
      */
     protected function createInstance(string $name, array $config)

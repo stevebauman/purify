@@ -52,7 +52,7 @@ class PurifyTest extends TestCase
         $input = '<a href="http://www.google.ca">Google</a>';
 
         $this->app['config']->set('purify.configs.foo', [
-            'HTML.TargetBlank' => true
+            'HTML.TargetBlank' => true,
         ]);
 
         $cleaned = Purify::driver('foo')->clean($input);
@@ -67,7 +67,7 @@ class PurifyTest extends TestCase
         $input = '<a href="http://www.google.ca">Google</a>';
 
         $cleaned = Purify::config([
-            'HTML.TargetBlank' => true
+            'HTML.TargetBlank' => true,
         ])->clean($input);
 
         $expected = '<a href="http://www.google.ca" target="_blank" rel="noreferrer noopener">Google</a>';
