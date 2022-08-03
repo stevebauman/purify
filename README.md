@@ -209,11 +209,48 @@ If you'd like to purify HTML while setting the value, you can use the inverse `P
 
 #### Custom HTML definitions
 
-The `Doctype` setting denotes the schema to ultimately abide to. You might want to extend these schema definitions
-to support custom elements or attributes (e.g. `<foo>...</foo>`, or `<span foo="...">`) by specifying a custom "definitions" class in config.
-We've already provided you with additional HTML5 definitions as HTMLPurifier does not (yet) support it out of the box.
+The `HTML.Doctype` configuration option denotes the schema to ultimately abide to.
+You may want to extend these schema definitions to support custom elements or
+attributes (e.g. `<foo>...</foo>`, or `<span foo="...">`) by specifying a
+custom HTML element "definitions".
 
-Here's an example for customizing the definitions in order to support Basecamp's Trix WYSIWYG editor (credit to [Antonio Primera](https://github.com/stevebauman/purify/issues/7)):
+Purify ships with additional HTML5 definitions that HTMLPurifier does
+not (yet) support of the box (via the `Html5Definition` class).
+
+To create your own HTML definition, create a new class and have it implement `Definition`:
+
+```php
+namespace App;
+
+use HTMLPurifier_HTMLDefinition;
+use Stevebauman\Purify\Definitions\Definition;
+
+class CustomDefinition implements Definition
+{
+    /**
+     * Apply rules to the HTML Purifier definition.
+     *
+     * @param HTMLPurifier_HTMLDefinition $definition
+     *
+     * @return void
+     */
+    public static function apply(HTMLPurifier_HTMLDefinition $definition)
+    {
+        // Customize the HTML purifier definition.
+    }
+}
+```
+
+Then, reference this class in the `config/purify.php` file in the `definitions` key:
+
+```php
+// config/purify.php
+
+'definitions' => \App\CustomDefinitions::class,
+```
+
+Here's an example for customizing the definition in order to support Basecamp's Trix WYSIWYG editor
+(credit to [Antonio Primera](https://github.com/stevebauman/purify/issues/7)):
 
 ```php
 namespace App;
