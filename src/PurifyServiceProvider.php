@@ -2,9 +2,7 @@
 
 namespace Stevebauman\Purify;
 
-use Illuminate\Foundation\Application as Laravel;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Lumen\Application as Lumen;
 
 class PurifyServiceProvider extends ServiceProvider
 {
@@ -29,12 +27,10 @@ class PurifyServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        if ($this->app instanceof Laravel && $this->app->runningInConsole()) {
+        if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__.'/../config/purify.php' => config_path('purify.php'),
             ], 'config');
-        } elseif ($this->app instanceof Lumen) {
-            $this->app->configure('purify');
         }
     }
 
