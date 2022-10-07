@@ -43,6 +43,8 @@ php artisan vendor:publish --provider="Stevebauman\Purify\PurifyServiceProvider"
 To clean a users input, simply use the clean method:
 
 ```php
+use Stevebauman\Purify\Facades\Purify;
+
 $input = '<script>alert("Harmful Script");</script> <p style="border:1px solid black" class="text-gray-700">Test</p>';
 
 // Returns '<p>Test</p>'
@@ -54,6 +56,8 @@ $cleaned = Purify::clean($input);
 Need to purify an array of user input? Just pass in an array:
 
 ```php
+use Stevebauman\Purify\Facades\Purify;
+
 $array = [
     '<script>alert("Harmful Script");</script> <p style="border:1px solid black" class="text-gray-700">Test</p>',
     '<script>alert("Harmful Script");</script> <p style="border:1px solid black" class="text-gray-700">Test</p>',
@@ -76,6 +80,8 @@ Need a different configuration for a single input? Pass in a configuration array
 > is **not** merged with your default configuration.
 
 ```php
+use Stevebauman\Purify\Facades\Purify;
+
 $config = ['HTML.Allowed' => 'div,b,a[href]'];
 
 $cleaned = Purify::config($config)->clean($input);
@@ -86,6 +92,28 @@ $cleaned = Purify::config($config)->clean($input);
 Inside the configuration file, multiple HTMLPurifier configuration sets
 can be specified, similar to Laravel's built-in `database`, `mail` and `logging` config.
 Simply call `Purify::config($name)->clean($input)` to use another set of configuration.
+
+For example, if we need to have a separate configuration for a comment system, we can setup this configuration in the `config/purify.php` file:
+
+```php
+// config/purify.php
+
+'configs' => [
+    // ...
+
+    'comments' => [
+        // Some configuration ...
+    ],
+]
+```
+
+Then, utilize it anywhere in your application by its name:
+
+```php
+use Stevebauman\Purify\Facades\Purify;
+
+$cleanedContent = Purify::config('comments')->clean(request('content'));
+```
 
 For HTMLPurifier configuration documentation, please visit the HTMLPurifier Website:
 
