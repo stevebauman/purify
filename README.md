@@ -8,6 +8,15 @@
 
 Purify is a Laravel wrapper around [HTMLPurifier](https://github.com/ezyang/htmlpurifier) by [ezyang](https://github.com/ezyang).
 
+### Index
+
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Configuration](#configuration)
+- [Practices](#practices)
+- [Upgrading from v4 to v5](#upgrading-from-v4-to-v5)
+
 ### Requirements
 
 -   PHP >= 7.4
@@ -26,69 +35,6 @@ Then, publish the configuration file using:
 ```bash
 php artisan vendor:publish --provider="Stevebauman\Purify\PurifyServiceProvider"
 ```
-
-### Upgrading from v4 to v5
-
-To upgrade from v4, install the latest version by running the below command in the root of your project:
-
-```bash
-composer require stevebauman/purify
-```
-
-Then, navigate into your published `config/purify.php` configuration file and
-copy the `settings` array -- except for the following keys:
-
--   `HTML.DocType`:
--   `Core.Encoding`:
--   `Cache.SerializerPath`:
-
-```diff
-'settings' => [
--   'Core.Encoding' => 'utf-8',
--   'Cache.SerializerPath' => storage_path('app/purify'),
--   'HTML.Doctype' => 'XHTML 1.0 Strict',
-+   'HTML.Allowed' => 'h1,h2,h3,h4,h5,h6,b,strong,i,em,a[href|title],ul,ol,li,p[style],br,span,img[width|height|alt|src]',
-+   'HTML.ForbiddenElements' => '',
-+   'CSS.AllowedProperties' => 'font,font-size,font-weight,font-style,font-family,text-decoration,padding-left,color,background-color,text-align',
-+   'AutoFormat.AutoParagraph' => false,
-+   'AutoFormat.RemoveEmpty' => false,
-],
-```
-
-> **Important**: If you've created a unique storage path for `Cache.SerializerPath`,
-> take note of this as well, so you can migrate it into the new configuration file.
-
-Once copied, delete the `config/purify.php` file, and run the below command:
-
-```bash
-php artisan vendor:publish --provider="Stevebauman\Purify\PurifyServiceProvider"
-```
-
-Then, inside the newly published `config/purify.php` configuration file, paste
-the keys (overwriting the current) into the `configs.default` array:
-
-```diff
-'configs' => [
-    'default' => [
-        'Core.Encoding' => 'utf-8',
-        'HTML.Doctype' => 'HTML 4.01 Transitional',
-+       'HTML.Allowed' => 'h1,h2,h3,h4,h5,h6,b,strong,i,em,a[href|title],ul,ol,li,p[style],br,span,img[width|height|alt|src]',
-+       'HTML.ForbiddenElements' => '',
-+       'CSS.AllowedProperties' => 'font,font-size,font-weight,font-style,font-family,text-decoration,padding-left,color,background-color,text-align',
-+       'AutoFormat.AutoParagraph' => false,
-+       'AutoFormat.RemoveEmpty' => false,
-    ],
-],
-```
-
-If you've created a unique serializer path (previously set via the old `Cache.SerializerPath` configuration
-key mentioned above), then you may reconfigure this in the new `serializer` configuration key:
-
-```php
-'serializer' => storage_path('app/purify'),
-```
-
-You're all set!
 
 ### Usage
 
@@ -291,3 +237,66 @@ class TrixPurifierDefinitions implements Definition
     }
 }
 ```
+
+### Upgrading from v4 to v5
+
+To upgrade from v4, install the latest version by running the below command in the root of your project:
+
+```bash
+composer require stevebauman/purify
+```
+
+Then, navigate into your published `config/purify.php` configuration file and
+copy the `settings` array -- except for the following keys:
+
+-   `HTML.DocType`:
+-   `Core.Encoding`:
+-   `Cache.SerializerPath`:
+
+```diff
+'settings' => [
+-   'Core.Encoding' => 'utf-8',
+-   'Cache.SerializerPath' => storage_path('app/purify'),
+-   'HTML.Doctype' => 'XHTML 1.0 Strict',
++   'HTML.Allowed' => 'h1,h2,h3,h4,h5,h6,b,strong,i,em,a[href|title],ul,ol,li,p[style],br,span,img[width|height|alt|src]',
++   'HTML.ForbiddenElements' => '',
++   'CSS.AllowedProperties' => 'font,font-size,font-weight,font-style,font-family,text-decoration,padding-left,color,background-color,text-align',
++   'AutoFormat.AutoParagraph' => false,
++   'AutoFormat.RemoveEmpty' => false,
+],
+```
+
+> **Important**: If you've created a unique storage path for `Cache.SerializerPath`,
+> take note of this as well, so you can migrate it into the new configuration file.
+
+Once copied, delete the `config/purify.php` file, and run the below command:
+
+```bash
+php artisan vendor:publish --provider="Stevebauman\Purify\PurifyServiceProvider"
+```
+
+Then, inside the newly published `config/purify.php` configuration file, paste
+the keys (overwriting the current) into the `configs.default` array:
+
+```diff
+'configs' => [
+    'default' => [
+        'Core.Encoding' => 'utf-8',
+        'HTML.Doctype' => 'HTML 4.01 Transitional',
++       'HTML.Allowed' => 'h1,h2,h3,h4,h5,h6,b,strong,i,em,a[href|title],ul,ol,li,p[style],br,span,img[width|height|alt|src]',
++       'HTML.ForbiddenElements' => '',
++       'CSS.AllowedProperties' => 'font,font-size,font-weight,font-style,font-family,text-decoration,padding-left,color,background-color,text-align',
++       'AutoFormat.AutoParagraph' => false,
++       'AutoFormat.RemoveEmpty' => false,
+    ],
+],
+```
+
+If you've created a unique serializer path (previously set via the old `Cache.SerializerPath` configuration
+key mentioned above), then you may reconfigure this in the new `serializer` configuration key:
+
+```php
+'serializer' => storage_path('app/purify'),
+```
+
+You're all set!
