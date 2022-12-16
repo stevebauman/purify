@@ -5,7 +5,7 @@ namespace Stevebauman\Purify\Facades;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @static array|string clean(array|string $input, array $config = null)
+ * @method static array|string clean(array|string $input, array $config = null)
  */
 class Purify extends Facade
 {
