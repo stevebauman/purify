@@ -9,7 +9,7 @@ return [
     | Default Config
     |--------------------------------------------------------------------------
     |
-    | This option defines the default config that are provided to HTMLPurifier.
+    | This option defines the default config that is provided to HTMLPurifier.
     |
     */
 
