@@ -1,6 +1,6 @@
 # Purify
 
-[![GitHub Actions](https://img.shields.io/github/workflow/status/stevebauman/purify/run-tests.svg?style=flat-square)](https://github.com/stevebauman/purify/actions)
+[![GitHub Actions](https://img.shields.io/github/actions/workflow/status/stevebauman/purify/run-tests.yml?branch=master&style=flat-square)](https://github.com/stevebauman/purify/actions)
 [![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/stevebauman/purify.svg?style=flat-square)](https://scrutinizer-ci.com/g/stevebauman/purify/?branch=master)
 [![Latest Stable Version](https://img.shields.io/packagist/v/stevebauman/purify.svg?style=flat-square)](https://packagist.org/packages/stevebauman/purify)
 [![Total Downloads](https://img.shields.io/packagist/dt/stevebauman/purify.svg?style=flat-square)](https://packagist.org/packages/stevebauman/purify)
