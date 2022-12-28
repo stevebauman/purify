@@ -1,12 +1,30 @@
-# Purify
+<h1 align="center">Purify</h1>
 
-[![GitHub Actions](https://img.shields.io/github/actions/workflow/status/stevebauman/purify/run-tests.yml?branch=master&style=flat-square)](https://github.com/stevebauman/purify/actions)
-[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/stevebauman/purify.svg?style=flat-square)](https://scrutinizer-ci.com/g/stevebauman/purify/?branch=master)
-[![Latest Stable Version](https://img.shields.io/packagist/v/stevebauman/purify.svg?style=flat-square)](https://packagist.org/packages/stevebauman/purify)
-[![Total Downloads](https://img.shields.io/packagist/dt/stevebauman/purify.svg?style=flat-square)](https://packagist.org/packages/stevebauman/purify)
-[![License](https://img.shields.io/packagist/l/stevebauman/purify.svg?style=flat-square)](https://packagist.org/packages/stevebauman/purify)
+<p align="center">
+A Laravel wrapper for <a href="https://github.com/ezyang/htmlpurifier" target="_blank">HTMLPurifier</a> by <a href="https://github.com/ezyang" target="_blank">ezyang</a>.
+</p>
 
-Purify is a Laravel wrapper around [HTMLPurifier](https://github.com/ezyang/htmlpurifier) by [ezyang](https://github.com/ezyang).
+<p align="center">
+<a href="https://github.com/stevebauman/purify/actions" target="_blank">
+<img src="https://img.shields.io/github/actions/workflow/status/stevebauman/purify/run-tests.yml?branch=master&style=flat-square"/>
+</a>
+
+<a href="https://scrutinizer-ci.com/g/stevebauman/purify/?branch=master" target="_blank">
+<img src="https://img.shields.io/scrutinizer/g/stevebauman/purify.svg?style=flat-square"/>
+</a>
+
+<a href="https://packagist.org/packages/stevebauman/purify" target="_blank">
+<img src="https://img.shields.io/packagist/v/stevebauman/purify.svg?style=flat-square"/>
+</a>
+
+<a href="https://packagist.org/packages/stevebauman/purify" target="_blank">
+<img src="https://img.shields.io/packagist/dt/stevebauman/purify.svg?style=flat-square"/>
+</a>
+
+<a href="https://packagist.org/packages/stevebauman/purify" target="_blank">
+<img src="https://img.shields.io/packagist/l/stevebauman/purify.svg?style=flat-square"/>
+</a>
+</p>
 
 ### Index
 
