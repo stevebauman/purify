@@ -2,15 +2,25 @@
 
 namespace Stevebauman\Purify\Tests;
 
+use HTMLPurifier_AttrDef_Enum;
 use HTMLPurifier_HTMLDefinition;
 use Illuminate\Support\Facades\File;
+use Stevebauman\Purify\Commands\ClearCommand;
 use Stevebauman\Purify\Definitions\Definition;
+use Stevebauman\Purify\Definitions\Html5Definition;
 use Stevebauman\Purify\Facades\Purify;
 use Stevebauman\Purify\PurifyServiceProvider;
 
 class PurifyTest extends TestCase
 {
     public $testInput = '<script>alert("Harmful Script");</script><p style="a {color: #0000ff;}" class="a-different-class">Test</p>';
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->artisan(ClearCommand::class);
+    }
 
     public function test_configuration_file_is_published()
     {
@@ -101,22 +111,24 @@ class PurifyTest extends TestCase
         $this->assertEquals($expected3, $cleaned3);
     }
 
-    public function test_definitions_are_applied()
+    public function test_custom_definitions_are_applied()
     {
         $this->app['config']->set('purify.definitions', FooDefinition::class);
 
-        $input = '<foo>Test</foo>';
+        $this->assertEquals(
+            '<span>Test</span>',
+            Purify::driver()->clean('<span class="foo">Test</span>')
+        );
 
-        $cleaned1 = Purify::driver()->clean($input);
-        $cleaned2 = Purify::config([
-            'HTML.Allowed' => 'foo',
-        ])->clean($input);
+        $this->assertEquals(
+            '<span class="foo">Test</span>',
+            Purify::config(['HTML.Allowed' => 'span[class]'])->clean('<span class="foo">Test</span>')
+        );
 
-        $expected1 = 'Test';
-        $expected2 = '<foo>Test</foo>';
-
-        $this->assertEquals($expected1, $cleaned1);
-        $this->assertEquals($expected2, $cleaned2);
+        $this->assertEquals(
+            '<span>Test</span>',
+            Purify::config(['HTML.Allowed' => 'span[class]'])->clean('<span class="bar">Test</span>')
+        );
     }
 }
 
@@ -124,6 +136,6 @@ class FooDefinition implements Definition
 {
     public static function apply(HTMLPurifier_HTMLDefinition $definition)
     {
-        $definition->addElement('foo', 'Inline', 'Inline', 'Common');
+        $definition->addAttribute('span', 'class', 'Enum#foo');
     }
 }
