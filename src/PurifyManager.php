@@ -99,11 +99,17 @@ class PurifyManager extends Manager
      *
      * @param string $name
      *
-     * @return string
+     * @return string|false
      */
     protected function resolveSerializerPath($name)
     {
-        return $this->container->make('config')->get('purify.serializer').DIRECTORY_SEPARATOR.$name;
+        $path = $this->container->make('config')->get('purify.serializer');
+
+        if (empty($path)) {
+            return false;
+        }
+
+        return implode(DIRECTORY_SEPARATOR, [$path, $name]);
     }
 
     /**
@@ -116,7 +122,9 @@ class PurifyManager extends Manager
      */
     protected function createInstance(string $name, array $config)
     {
-        if (! is_dir($serializerPath = $this->resolveSerializerPath($name))) {
+        $serializerPath = $this->resolveSerializerPath($name);
+
+        if (! empty($serializerPath) && ! is_dir($serializerPath)) {
             mkdir($serializerPath, 0755, true);
         }
 
@@ -140,6 +148,13 @@ class PurifyManager extends Manager
 
         $htmlConfig->set('HTML.DefinitionID', 'HTML-purify');
         $htmlConfig->set('HTML.DefinitionRev', 1);
+
+        // If no cache serializer path is set, we will assume
+        // that caching has been intentionally disabled and
+        // prevent attempts to save to a null directory.
+        if (empty($config['Cache.SerializerPath'])) {
+            $htmlConfig->set('Cache.DefinitionImpl', null);
+        }
 
         if ($definition = $htmlConfig->maybeGetRawHTMLDefinition()) {
             $definitionsClass = $this->container->make('config')->get('purify.definitions');
