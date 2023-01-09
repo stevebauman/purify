@@ -29,9 +29,13 @@ class ClearCommand extends Command
      */
     public function handle(Repository $config, Filesystem $files)
     {
-        $files->cleanDirectory(
-            $config->get('purify.serializer')
-        );
+        if (empty($path = $config->get('purify.serializer'))) {
+            return $this->error(
+                'Purifier serializer path is not defined. Did you set it to null or forget to publish the configuration?'
+            );
+        }
+
+        $files->cleanDirectory($path);
 
         $this->components->info('HTML Purifier serializer cache cleared successfully.');
     }
