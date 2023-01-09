@@ -3,6 +3,7 @@
 namespace Stevebauman\Purify;
 
 use Illuminate\Support\ServiceProvider;
+use Stevebauman\Purify\Commands\ClearCommand;
 
 class PurifyServiceProvider extends ServiceProvider
 {
@@ -14,6 +15,8 @@ class PurifyServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__.'/../config/purify.php', 'purify');
+
+        $this->commands(ClearCommand::class);
 
         $this->app->singleton('purify', function ($app) {
             return new PurifyManager($app);
