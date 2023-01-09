@@ -17,7 +17,7 @@ class Purify
     /**
      * Constructor.
      *
-     * @param array $config
+     * @param HTMLPurifier_Config $config
      */
     public function __construct(HTMLPurifier_Config $config)
     {
