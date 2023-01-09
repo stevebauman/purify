@@ -2,12 +2,10 @@
 
 namespace Stevebauman\Purify\Tests;
 
-use HTMLPurifier_AttrDef_Enum;
 use HTMLPurifier_HTMLDefinition;
 use Illuminate\Support\Facades\File;
 use Stevebauman\Purify\Commands\ClearCommand;
 use Stevebauman\Purify\Definitions\Definition;
-use Stevebauman\Purify\Definitions\Html5Definition;
 use Stevebauman\Purify\Facades\Purify;
 use Stevebauman\Purify\PurifyServiceProvider;
 
