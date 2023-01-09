@@ -37,6 +37,6 @@ class ClearCommand extends Command
 
         $files->cleanDirectory($path);
 
-        $this->components->info('HTML Purifier serializer cache cleared successfully.');
+        $this->info('HTML Purifier serializer cache cleared successfully.');
     }
 }
