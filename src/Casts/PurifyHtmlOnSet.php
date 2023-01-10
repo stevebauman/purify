@@ -5,25 +5,8 @@ namespace Stevebauman\Purify\Casts;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
 use Stevebauman\Purify\Facades\Purify;
 
-class PurifyHtmlOnSet implements CastsAttributes
+class PurifyHtmlOnSet extends Caster implements CastsAttributes
 {
-    /**
-     * The name of the config to use for purification.
-     *
-     * @var string|null
-     */
-    protected $config;
-
-    /**
-     * Constructor.
-     *
-     * @param string|null $config
-     */
-    public function __construct($config = null)
-    {
-        $this->config = $config;
-    }
-
     /**
      * Cast the given value.
      *
