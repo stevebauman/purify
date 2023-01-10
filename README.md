@@ -152,6 +152,20 @@ You may do so via a `purify:clean` command:
 php artisan purify:clean
 ```
 
+#### Disabling Caching
+
+To disable caching all together, you may set the `serializer` path to `null`:
+
+```php
+// config/purify.php
+
+'serializer' => null,
+```
+
+This will cause your definitions to be serialized upon each application request.
+
+> **Important**: Caching is recommended in production environments.
+
 ### Practices
 
 If you're looking into sanitization, you're likely wanting to sanitize inputted user HTML
