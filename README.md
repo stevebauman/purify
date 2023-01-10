@@ -241,6 +241,24 @@ Then, reference this class in the `config/purify.php` file in the `definitions` 
 'definitions' => \App\CustomDefinitions::class,
 ```
 
+If you'd like to extend the built-in default `Html5Definition`, you can apply it to your custom definition:
+
+```php
+use Stevebauman\Purify\Definitions\Html5Definition;
+
+class CustomDefinition implements Definition
+{
+    public static function apply(HTMLPurifier_HTMLDefinition $definition)
+    {
+        Html5Definition::apply($definition);
+        
+        // ...
+    }
+}
+```
+
+##### Basecamp Trix Definition
+
 Here's an example for customizing the definition in order to support Basecamp's Trix WYSIWYG editor
 (credit to [Antonio Primera](https://github.com/stevebauman/purify/issues/7)):
 
