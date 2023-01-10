@@ -32,6 +32,7 @@ A Laravel wrapper for <a href="https://github.com/ezyang/htmlpurifier" target="_
 - [Installation](#installation)
 - [Usage](#usage)
 - [Configuration](#configuration)
+- [Cache](#cache)
 - [Practices](#practices)
 - [Upgrading from v4 to v5](#upgrading-from-v4-to-v5)
 
@@ -111,7 +112,8 @@ Inside the configuration file, multiple HTMLPurifier configuration sets
 can be specified, similar to Laravel's built-in `database`, `mail` and `logging` config.
 Simply call `Purify::config($name)->clean($input)` to use another set of configuration.
 
-For example, if we need to have a separate configuration for a comment system, we can setup this configuration in the `config/purify.php` file:
+For example, if we need to have a separate configuration for a comment system, we
+can setup this configuration in the `config/purify.php` file:
 
 ```php
 // config/purify.php
@@ -136,6 +138,19 @@ $cleanedContent = Purify::config('comments')->clean(request('content'));
 For HTMLPurifier configuration documentation, please visit the HTMLPurifier Website:
 
 http://htmlpurifier.org/live/configdoc/plain.html
+
+### Cache
+
+After running Purify once, [HTMLPurifier](https://github.com/ezyang/htmlpurifier) will auto-cache your
+serialized `definitions` into the `serializer` path (both configured inside the `config/purify.php` file).
+
+If you ever update the `definitions` configuration option, you must clear this HTMLPurifier cache.
+
+You may do so via a `purify:clean` command:
+
+```shell
+php artisan purify:clean
+```
 
 ### Practices
 
