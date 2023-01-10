@@ -8,6 +8,7 @@ use Stevebauman\Purify\Commands\ClearCommand;
 use Stevebauman\Purify\Definitions\Definition;
 use Stevebauman\Purify\Facades\Purify;
 use Stevebauman\Purify\PurifyServiceProvider;
+use Symfony\Component\Finder\Finder;
 
 class PurifyTest extends TestCase
 {
@@ -140,7 +141,9 @@ class PurifyTest extends TestCase
             Purify::driver()->clean('<span class="foo">Test</span>')
         );
 
-        $this->assertTrue(File::isEmptyDirectory($dir));
+        $this->assertFalse(
+            Finder::create()->in($dir)->depth(0)->hasResults()
+        );
     }
 }
 
