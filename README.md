@@ -164,6 +164,8 @@ To disable caching all together, you may set the `serializer` path to `null`:
 
 This will cause your definitions to be serialized upon each application request.
 
+This is especially useful when debugging or tweaking definition files to see immediate results.
+
 > **Important**: Caching is recommended in production environments.
 
 ### Practices
