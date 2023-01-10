@@ -128,6 +128,20 @@ class PurifyTest extends TestCase
             Purify::config(['HTML.Allowed' => 'span[class]'])->clean('<span class="bar">Test</span>')
         );
     }
+
+    public function test_caching_can_be_disabled()
+    {
+        $dir = $this->app['config']->get('purify.serializer');
+
+        $this->app['config']->set('purify.serializer', null);
+
+        $this->assertEquals(
+            '<span>Test</span>',
+            Purify::driver()->clean('<span class="foo">Test</span>')
+        );
+
+        $this->assertTrue(File::isEmptyDirectory($dir));
+    }
 }
 
 class FooDefinition implements Definition

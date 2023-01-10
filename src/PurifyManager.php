@@ -129,9 +129,9 @@ class PurifyManager extends Manager
         }
 
         return new Purify(
-            $this->createHtmlConfig(array_merge([
+            $this->createHtmlConfig(array_merge(array_filter([
                 'Cache.SerializerPath' => $serializerPath,
-            ], $config))
+            ]), $config))
         );
     }
 
