@@ -146,10 +146,10 @@ serialized `definitions` into the `serializer` path (both configured inside the 
 
 If you ever update the `definitions` configuration option, you must clear this HTMLPurifier cache.
 
-You may do so via a `purify:clean` command:
+You may do so via a `purify:clear` command:
 
 ```shell
-php artisan purify:clean
+php artisan purify:clear
 ```
 
 #### Disabling Caching
