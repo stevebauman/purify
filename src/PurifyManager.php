@@ -5,6 +5,7 @@ namespace Stevebauman\Purify;
 use HTMLPurifier_Config;
 use Illuminate\Support\Manager;
 use InvalidArgumentException;
+use HTMLPurifier_DefinitionCacheFactory;
 use Stevebauman\Purify\Definitions\Definition;
 
 class PurifyManager extends Manager
@@ -154,6 +155,12 @@ class PurifyManager extends Manager
         // prevent attempts to save to a null directory.
         if (empty($config['Cache.SerializerPath'])) {
             $htmlConfig->set('Cache.DefinitionImpl', null);
+        }
+        // Otherwise, if a disk has been set, we will assume that the
+        // Laravel definition cache has been set up, which allows
+        // us to store caches in a Laravel filesystem disk.
+        else if (config('purify.disk')) {
+            $htmlConfig->set('Cache.DefinitionImpl', LaravelDefinitionCache::NAME);
         }
 
         if ($definition = $htmlConfig->maybeGetRawHTMLDefinition()) {

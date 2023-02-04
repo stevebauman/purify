@@ -2,6 +2,7 @@
 
 namespace Stevebauman\Purify;
 
+use HTMLPurifier_DefinitionCacheFactory;
 use Illuminate\Support\ServiceProvider;
 use Stevebauman\Purify\Commands\ClearCommand;
 
@@ -34,6 +35,14 @@ class PurifyServiceProvider extends ServiceProvider
             $this->publishes([
                 __DIR__.'/../config/purify.php' => config_path('purify.php'),
             ], 'config');
+        }
+
+        if (config('purify.disk')) {
+            require_once(__DIR__.'/DefinitionCache.php');
+
+            HTMLPurifier_DefinitionCacheFactory::instance()->register(
+                LaravelDefinitionCache::NAME, LaravelDefinitionCache::class
+            );
         }
     }
 

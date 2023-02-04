@@ -72,6 +72,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Filesystem Disk
+    |--------------------------------------------------------------------------
+    |
+    | The location where HTMLPurifier can store its temporary serializer files.
+    | The filepath should be accessible and writable by the web server.
+    | A good place for this is in the framework's own storage path.
+    |
+    */
+
+    'disk' => 'local',
+
+    /*
+    |--------------------------------------------------------------------------
     | Serializer location
     |--------------------------------------------------------------------------
     |
