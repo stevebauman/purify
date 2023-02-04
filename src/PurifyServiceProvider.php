@@ -38,7 +38,7 @@ class PurifyServiceProvider extends ServiceProvider
         }
 
         if (config('purify.disk')) {
-            require_once(__DIR__.'/DefinitionCache.php');
+            require_once __DIR__.'/DefinitionCache.php';
 
             HTMLPurifier_DefinitionCacheFactory::instance()->register(
                 LaravelDefinitionCache::NAME, LaravelDefinitionCache::class
