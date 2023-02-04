@@ -2,9 +2,9 @@
 
 namespace Stevebauman\Purify;
 
-use Illuminate\Support\Str;
 use HTMLPurifier_DefinitionCache;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class LaravelDefinitionCache extends HTMLPurifier_DefinitionCache
 {
@@ -35,13 +35,13 @@ class LaravelDefinitionCache extends HTMLPurifier_DefinitionCache
      * Adds a definition object to the cache.
      *
      * @param \HTMLPurifier_Definition $def
-     * @param \HTMLPurifier_Config $config
+     * @param \HTMLPurifier_Config     $config
      *
      * @return bool|void
      */
     public function add($def, $config)
     {
-        if (!$this->checkDefType($def)) {
+        if (! $this->checkDefType($def)) {
             return;
         }
 
@@ -58,13 +58,13 @@ class LaravelDefinitionCache extends HTMLPurifier_DefinitionCache
      * Unconditionally saves a definition object to the cache.
      *
      * @param \HTMLPurifier_Definition $def
-     * @param \HTMLPurifier_Config $config
+     * @param \HTMLPurifier_Config     $config
      *
      * @return bool|void
      */
     public function set($def, $config)
     {
-        if (!$this->checkDefType($def)) {
+        if (! $this->checkDefType($def)) {
             return;
         }
 
@@ -77,7 +77,7 @@ class LaravelDefinitionCache extends HTMLPurifier_DefinitionCache
      * Replace an object in the cache.
      *
      * @param \HTMLPurifier_Definition $def
-     * @param \HTMLPurifier_Config $config
+     * @param \HTMLPurifier_Config     $config
      *
      * @return bool|void
      */
@@ -115,7 +115,7 @@ class LaravelDefinitionCache extends HTMLPurifier_DefinitionCache
     }
 
     /**
-     * Removes a definition object to the cache
+     * Removes a definition object to the cache.
      *
      * @param \HTMLPurifier_Config $config
      *
@@ -195,7 +195,7 @@ class LaravelDefinitionCache extends HTMLPurifier_DefinitionCache
     {
         $key = $this->generateKey($config);
 
-        return $this->generateDirectoryPath($config) . 'DefinitionCache.php/' . $key . '.ser';
+        return $this->generateDirectoryPath($config).'DefinitionCache.php/'.$key.'.ser';
     }
 
     /**
@@ -211,7 +211,7 @@ class LaravelDefinitionCache extends HTMLPurifier_DefinitionCache
     {
         $base = $this->generateBaseDirectoryPath($config);
 
-        return $base . '/' . $this->type;
+        return $base.'/'.$this->type;
     }
 
     /**
@@ -219,6 +219,7 @@ class LaravelDefinitionCache extends HTMLPurifier_DefinitionCache
      * serials.
      *
      * @param \HTMLPurifier_Config $config
+     *
      * @return mixed|string
      */
     public function generateBaseDirectoryPath($config)
