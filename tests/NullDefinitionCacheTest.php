@@ -21,6 +21,6 @@ class NullDefinitionCacheTest extends TestCase
     {
         Purify::clean('foo');
 
-        Storage::assertDirectoryEmpty('purify');
+        $this->assertEmpty(Storage::allFiles('purfiy'));
     }
 }
