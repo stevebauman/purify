@@ -1,12 +1,12 @@
 <?php
 
-namespace Stevebauman\Purify;
+namespace Stevebauman\Purify\Cache;
 
 use HTMLPurifier_DefinitionCache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-class SerializerDefinitionCache extends HTMLPurifier_DefinitionCache
+class FilesystemDefinitionCache extends HTMLPurifier_DefinitionCache
 {
     public const NAME = 'Laravel';
 
@@ -201,11 +201,11 @@ class SerializerDefinitionCache extends HTMLPurifier_DefinitionCache
     /**
      * Generates the path to the directory contain this cache's serial files.
      *
+     * @note No trailing slash
+     *
      * @param \HTMLPurifier_Config $config
      *
      * @return string
-     *
-     * @note No trailing slash
      */
     public function generateDirectoryPath($config)
     {

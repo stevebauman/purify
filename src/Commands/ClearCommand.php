@@ -5,6 +5,10 @@ namespace Stevebauman\Purify\Commands;
 use Illuminate\Config\Repository;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\FilesystemManager;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
+use Stevebauman\Purify\Cache\CacheDefinitionCache;
+use Stevebauman\Purify\Cache\FilesystemDefinitionCache;
 
 class ClearCommand extends Command
 {
@@ -35,14 +39,27 @@ class ClearCommand extends Command
             );
         }
 
-        ['path' => $path, 'disk' => $diskName] = $serializer;
+        /** @var class-string $cache */
+        $cache = $serializer['cache'];
 
-        $disk = $storage->disk($diskName);
+        if (is_a($cache, FilesystemDefinitionCache::class, true)) {
+            $disk = $storage->disk($serializer['disk']);
 
-        $disk->deleteDirectory($path);
+            $disk->deleteDirectory($serializer['path']);
 
-        $disk->makeDirectory($path);
+            $disk->makeDirectory($serializer['path']);
 
-        $this->info('HTML Purifier serializer cache cleared successfully.');
+            return $this->info('HTML Purifier serializer filesystem cache cleared successfully.');
+        }
+
+        if (is_a($cache, CacheDefinitionCache::class, true)) {
+            $cache = Cache::driver($serializer['driver']);
+
+            $cache->clear();
+
+            return $this->info('HTML Purifier serializer cache cleared successfully.');
+        }
+
+        return $this->error('Unable to determine clear cache strategy.');
     }
 }

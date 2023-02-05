@@ -3,6 +3,7 @@
 namespace Stevebauman\Purify;
 
 use HTMLPurifier_Config;
+use HTMLPurifier_DefinitionCacheFactory;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Manager;
 use InvalidArgumentException;
@@ -145,12 +146,8 @@ class PurifyManager extends Manager
     {
         $serializerPath = $this->resolveSerializerPath($name);
 
-        $storage = $this->filesystem->disk(
-            $this->config->get('purify.serializer.disk')
-        );
-
-        if (! empty($serializerPath) && ! $storage->exists($serializerPath)) {
-            $storage->makeDirectory($serializerPath);
+        if (! empty($serializerPath)) {
+            $this->prepareFilesystemStorage($serializerPath);
         }
 
         return new Purify(
@@ -158,6 +155,28 @@ class PurifyManager extends Manager
                 'Cache.SerializerPath' => $serializerPath,
             ]), $config))
         );
+    }
+
+    /**
+     * Prepare the serializer path in the filesystem storage.
+     *
+     * @param string $serializerPath
+     *
+     * @return void
+     */
+    protected function prepareFilesystemStorage(string $serializerPath)
+    {
+        $disk = $this->config->get('purify.serializer.disk');
+
+        if (empty($disk)) {
+            return;
+        }
+
+        $storage = $this->filesystem->disk($disk);
+
+        if (! $storage->exists($serializerPath)) {
+            $storage->makeDirectory($serializerPath);
+        }
     }
 
     /**
@@ -173,19 +192,7 @@ class PurifyManager extends Manager
 
         $htmlConfig->set('HTML.DefinitionID', 'HTML-purify');
         $htmlConfig->set('HTML.DefinitionRev', 1);
-
-        // If no cache serializer path is set, we will assume
-        // that caching has been intentionally disabled and
-        // prevent attempts to save to a null directory.
-        if (empty($config['Cache.SerializerPath'])) {
-            $htmlConfig->set('Cache.DefinitionImpl', null);
-        }
-        // Otherwise, if a disk has been set, we will assume that the
-        // Laravel definition cache has been set up, which allows
-        // us to store caches in a Laravel filesystem disk.
-        elseif (config('purify.serializer.disk')) {
-            $htmlConfig->set('Cache.DefinitionImpl', SerializerDefinitionCache::NAME);
-        }
+        $htmlConfig->set('Cache.DefinitionImpl', config('purify.serializer.cache'));
 
         if ($definition = $htmlConfig->maybeGetRawHTMLDefinition()) {
             $definitionsClass = $this->config->get('purify.definitions');

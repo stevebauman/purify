@@ -72,18 +72,24 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Serializer disk and path
+    | Serializer
     |--------------------------------------------------------------------------
     |
-    | The storage disk and path where HTMLPurifier can store its serializer files.
-    | The path should be writable through the storage disk by the web server.
-    | A good place for this is in the framework's own local storage path.
+    | The storage implementation where HTMLPurifier can store its serializer files.
+    | If the filesystem cache is in use, the path must be writable through the
+    | storage disk by the web server, otherwise an exception will be thrown.
     |
     */
 
-    'serializer' => [
-        'disk' => 'local',
-        'path' => 'purify',
-    ],
+     'serializer' => [
+        'driver' => env('CACHE_DRIVER', 'file'),
+        'cache' => \Stevebauman\Purify\Cache\CacheDefinitionCache::class,
+     ],
+
+    // 'serializer' => [
+    //    'disk' => env('FILESYSTEM_DISK', 'local'),
+    //    'path' => 'purify',
+    //    'cache' => \Stevebauman\Purify\Cache\FilesystemDefinitionCache::class,
+    // ],
 
 ];
