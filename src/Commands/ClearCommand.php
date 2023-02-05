@@ -4,7 +4,7 @@ namespace Stevebauman\Purify\Commands;
 
 use Illuminate\Config\Repository;
 use Illuminate\Console\Command;
-use Illuminate\Filesystem\Filesystem;
+use Illuminate\Filesystem\FilesystemManager;
 
 class ClearCommand extends Command
 {
@@ -27,15 +27,21 @@ class ClearCommand extends Command
      *
      * @return void
      */
-    public function handle(Repository $config, Filesystem $files)
+    public function handle(Repository $config, FilesystemManager $storage)
     {
-        if (empty($path = $config->get('purify.serializer'))) {
+        if (empty($serializer = $config->get('purify.serializer'))) {
             return $this->error(
                 'Purifier serializer path is not defined. Did you set it to null or forget to publish the configuration?'
             );
         }
 
-        $files->cleanDirectory($path);
+        ['path' => $path, 'disk' => $diskName] = $serializer;
+
+        $disk = $storage->disk($diskName);
+
+        $disk->deleteDirectory($path);
+
+        $disk->makeDirectory($path);
 
         $this->info('HTML Purifier serializer cache cleared successfully.');
     }

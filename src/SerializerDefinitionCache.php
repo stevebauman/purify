@@ -6,7 +6,7 @@ use HTMLPurifier_DefinitionCache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-class LaravelDefinitionCache extends HTMLPurifier_DefinitionCache
+class SerializerDefinitionCache extends HTMLPurifier_DefinitionCache
 {
     public const NAME = 'Laravel';
 
@@ -27,7 +27,7 @@ class LaravelDefinitionCache extends HTMLPurifier_DefinitionCache
         parent::__construct($type);
 
         $this->disk = Storage::disk(
-            config('purify.disk')
+            config('purify.serializer.disk')
         );
     }
 

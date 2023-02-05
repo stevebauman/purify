@@ -4,6 +4,7 @@ namespace Stevebauman\Purify\Tests;
 
 use HTMLPurifier_HTMLDefinition;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Stevebauman\Purify\Commands\ClearCommand;
 use Stevebauman\Purify\Definitions\Definition;
 use Stevebauman\Purify\Facades\Purify;
@@ -132,7 +133,7 @@ class PurifyTest extends TestCase
 
     public function test_caching_can_be_disabled()
     {
-        $dir = $this->app['config']->get('purify.serializer');
+        $dir = $this->app['config']->get('purify.serializer.path');
 
         $this->app['config']->set('purify.serializer', null);
 
@@ -142,7 +143,9 @@ class PurifyTest extends TestCase
         );
 
         $this->assertFalse(
-            Finder::create()->in($dir)->depth(0)->hasResults()
+            Finder::create()->in(
+                Storage::path($dir)
+            )->depth(0)->hasResults()
         );
     }
 }

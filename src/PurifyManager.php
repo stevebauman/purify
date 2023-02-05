@@ -3,12 +3,32 @@
 namespace Stevebauman\Purify;
 
 use HTMLPurifier_Config;
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Manager;
 use InvalidArgumentException;
 use Stevebauman\Purify\Definitions\Definition;
 
 class PurifyManager extends Manager
 {
+    /**
+     * The filesystem manager instance.
+     *
+     * @var \Illuminate\Filesystem\FilesystemManager
+     */
+    protected $filesystem;
+
+    /**
+     * Constructor.
+     *
+     * @param Container $container
+     */
+    public function __construct(Container $container)
+    {
+        parent::__construct($container);
+
+        $this->filesystem = $container->make('filesystem');
+    }
+
     /**
      * Convenience alias for driver().
      *
@@ -30,7 +50,7 @@ class PurifyManager extends Manager
      */
     public function getDefaultDriver()
     {
-        return $this->container->make('config')->get('purify.default');
+        return $this->config->get('purify.default');
     }
 
     /**
@@ -49,9 +69,10 @@ class PurifyManager extends Manager
         // into a string to dynamically define and set its configuration.
         if (is_array($driver)) {
             $config = $driver;
+
             $driver = md5(serialize($driver));
 
-            $this->container->make('config')->set("purify.configs.{$driver}", $config);
+            $this->config->set("purify.configs.{$driver}", $config);
         }
 
         return parent::driver($driver);
@@ -91,7 +112,7 @@ class PurifyManager extends Manager
      */
     protected function resolveConfig($name)
     {
-        return $this->container->make('config')->get("purify.configs.{$name}");
+        return $this->config->get("purify.configs.{$name}");
     }
 
     /**
@@ -103,7 +124,7 @@ class PurifyManager extends Manager
      */
     protected function resolveSerializerPath($name)
     {
-        $path = $this->container->make('config')->get('purify.serializer');
+        $path = $this->config->get('purify.serializer.path');
 
         if (empty($path)) {
             return false;
@@ -124,8 +145,12 @@ class PurifyManager extends Manager
     {
         $serializerPath = $this->resolveSerializerPath($name);
 
-        if (! empty($serializerPath) && ! is_dir($serializerPath)) {
-            mkdir($serializerPath, 0755, true);
+        $storage = $this->filesystem->disk(
+            $this->config->get('purify.serializer.disk')
+        );
+
+        if (! empty($serializerPath) && ! $storage->exists($serializerPath)) {
+            $storage->makeDirectory($serializerPath);
         }
 
         return new Purify(
@@ -158,12 +183,12 @@ class PurifyManager extends Manager
         // Otherwise, if a disk has been set, we will assume that the
         // Laravel definition cache has been set up, which allows
         // us to store caches in a Laravel filesystem disk.
-        elseif (config('purify.disk')) {
-            $htmlConfig->set('Cache.DefinitionImpl', LaravelDefinitionCache::NAME);
+        elseif (config('purify.serializer.disk')) {
+            $htmlConfig->set('Cache.DefinitionImpl', SerializerDefinitionCache::NAME);
         }
 
         if ($definition = $htmlConfig->maybeGetRawHTMLDefinition()) {
-            $definitionsClass = $this->container->make('config')->get('purify.definitions');
+            $definitionsClass = $this->config->get('purify.definitions');
 
             if ($definitionsClass && is_a($definitionsClass, Definition::class, true)) {
                 $definitionsClass::apply($definition);
