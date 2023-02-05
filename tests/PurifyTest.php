@@ -4,12 +4,10 @@ namespace Stevebauman\Purify\Tests;
 
 use HTMLPurifier_HTMLDefinition;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
-use Stevebauman\Purify\Commands\ClearCommand;
+use Stevebauman\Purify\Cache\CacheDefinitionCache;
 use Stevebauman\Purify\Definitions\Definition;
 use Stevebauman\Purify\Facades\Purify;
 use Stevebauman\Purify\PurifyServiceProvider;
-use Symfony\Component\Finder\Finder;
 
 class PurifyTest extends TestCase
 {
@@ -19,7 +17,10 @@ class PurifyTest extends TestCase
     {
         parent::setUp();
 
-        $this->artisan(ClearCommand::class);
+        $this->app['config']->set('purify.serializer', [
+            'driver' => 'file',
+            'cache' => CacheDefinitionCache::class,
+        ]);
     }
 
     public function test_configuration_file_is_published()
@@ -98,7 +99,7 @@ class PurifyTest extends TestCase
             'HTML.TargetNoopener' => false,
         ]);
 
-        $cleaned1 = Purify::driver()->clean($input);
+        $cleaned1 = Purify::clean($input);
         $cleaned2 = Purify::driver('foo')->clean($input);
         $cleaned3 = Purify::driver('bar')->clean($input);
 
@@ -117,7 +118,7 @@ class PurifyTest extends TestCase
 
         $this->assertEquals(
             '<span>Test</span>',
-            Purify::driver()->clean('<span class="foo">Test</span>')
+            Purify::clean('<span class="foo">Test</span>')
         );
 
         $this->assertEquals(
@@ -128,24 +129,6 @@ class PurifyTest extends TestCase
         $this->assertEquals(
             '<span>Test</span>',
             Purify::config(['HTML.Allowed' => 'span[class]'])->clean('<span class="bar">Test</span>')
-        );
-    }
-
-    public function test_caching_can_be_disabled()
-    {
-        $dir = $this->app['config']->get('purify.serializer.path');
-
-        $this->app['config']->set('purify.serializer', null);
-
-        $this->assertEquals(
-            '<span>Test</span>',
-            Purify::driver()->clean('<span class="foo">Test</span>')
-        );
-
-        $this->assertFalse(
-            Finder::create()->in(
-                Storage::path($dir)
-            )->depth(0)->hasResults()
         );
     }
 }
