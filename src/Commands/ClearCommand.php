@@ -5,7 +5,6 @@ namespace Stevebauman\Purify\Commands;
 use Illuminate\Config\Repository;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\FilesystemManager;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
 use Stevebauman\Purify\Cache\CacheDefinitionCache;
 use Stevebauman\Purify\Cache\FilesystemDefinitionCache;

@@ -81,10 +81,10 @@ return [
     |
     */
 
-     'serializer' => [
+    'serializer' => [
         'driver' => env('CACHE_DRIVER', 'file'),
         'cache' => \Stevebauman\Purify\Cache\CacheDefinitionCache::class,
-     ],
+    ],
 
     // 'serializer' => [
     //    'disk' => env('FILESYSTEM_DISK', 'local'),
