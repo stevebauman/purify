@@ -8,8 +8,6 @@ use Illuminate\Support\Str;
 
 class FilesystemDefinitionCache extends HTMLPurifier_DefinitionCache
 {
-    public const NAME = 'Laravel';
-
     /**
      * The filesystem disk.
      *
@@ -220,7 +218,7 @@ class FilesystemDefinitionCache extends HTMLPurifier_DefinitionCache
      *
      * @param \HTMLPurifier_Config $config
      *
-     * @return mixed|string
+     * @return string
      */
     public function generateBaseDirectoryPath($config)
     {
