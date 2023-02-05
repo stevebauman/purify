@@ -3,7 +3,6 @@
 namespace Stevebauman\Purify;
 
 use HTMLPurifier_Config;
-use HTMLPurifier_DefinitionCacheFactory;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Manager;
 use InvalidArgumentException;

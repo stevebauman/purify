@@ -4,7 +4,6 @@ namespace Stevebauman\Purify;
 
 use HTMLPurifier_DefinitionCacheFactory;
 use Illuminate\Support\ServiceProvider;
-use Stevebauman\Purify\Cache\FilesystemDefinitionCache;
 use Stevebauman\Purify\Commands\ClearCommand;
 
 class PurifyServiceProvider extends ServiceProvider

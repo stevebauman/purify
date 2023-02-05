@@ -2,8 +2,8 @@
 
 namespace Stevebauman\Purify\Cache;
 
-use Illuminate\Support\Facades\Cache;
 use HTMLPurifier_DefinitionCache;
+use Illuminate\Support\Facades\Cache;
 
 class CacheDefinitionCache extends HTMLPurifier_DefinitionCache
 {
