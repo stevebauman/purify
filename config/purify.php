@@ -77,7 +77,7 @@ return [
     |
     | The storage disk and path where HTMLPurifier can store its serializer files.
     | The path should be writable through the storage disk by the web server.
-    | A good place for this is in the framework's own storage path.
+    | A good place for this is in the framework's own local storage path.
     |
     */
 
