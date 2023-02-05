@@ -4,7 +4,10 @@ namespace Stevebauman\Purify\Commands;
 
 use Illuminate\Config\Repository;
 use Illuminate\Console\Command;
-use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
+use Stevebauman\Purify\Cache\CacheDefinitionCache;
+use Stevebauman\Purify\Cache\FilesystemDefinitionCache;
 
 class ClearCommand extends Command
 {
@@ -27,16 +30,37 @@ class ClearCommand extends Command
      *
      * @return void
      */
-    public function handle(Repository $config, Filesystem $files)
+    public function handle(Repository $config)
     {
-        if (empty($path = $config->get('purify.serializer'))) {
+        if (empty($serializer = $config->get('purify.serializer'))) {
             return $this->error(
                 'Purifier serializer path is not defined. Did you set it to null or forget to publish the configuration?'
             );
         }
 
-        $files->cleanDirectory($path);
+        /** @var class-string $cache */
+        $cache = $serializer['cache'];
 
-        $this->info('HTML Purifier serializer cache cleared successfully.');
+        if (is_a($cache, FilesystemDefinitionCache::class, true)) {
+            $disk = Storage::disk($serializer['disk']);
+
+            $disk->deleteDirectory($serializer['path']);
+
+            $disk->makeDirectory($serializer['path']);
+
+            return $this->info('HTML Purifier serializer filesystem cache cleared successfully.');
+        }
+
+        if (is_a($cache, CacheDefinitionCache::class, true)) {
+            $cache = Cache::driver($serializer['driver']);
+
+            $cache->clear();
+
+            return $this->info('HTML Purifier serializer cache cleared successfully.');
+        }
+
+        return $this->error(
+            sprintf('Unable to determine a clear cache strategy with the given cache instance [%s].', $cache)
+        );
     }
 }
