@@ -35,6 +35,7 @@ A Laravel wrapper for <a href="https://github.com/ezyang/htmlpurifier" target="_
 - [Cache](#cache)
 - [Practices](#practices)
 - [Upgrading from v4 to v5](#upgrading-from-v4-to-v5)
+- [Upgrading from v5 to v6](#upgrading-from-v5-to-v6)
 
 ### Requirements
 
@@ -142,7 +143,18 @@ http://htmlpurifier.org/live/configdoc/plain.html
 ### Cache
 
 After running Purify once, [HTMLPurifier](https://github.com/ezyang/htmlpurifier) will auto-cache your
-serialized `definitions` into the `serializer` path (both configured inside the `config/purify.php` file).
+serialized `definitions` into the `serializer.cache` definition you have configured in `config/purify.php`.
+
+> **Important**: 
+>
+> If you have configured Purify to utilize the `CacheDefinitionCache` in the `serializer` option, 
+> this command will issue a `Cache::clear()` on the cache driver you have configured it to use.
+> 
+> If you have configured Purify to utilize the `FilesystemDefinitionCache` in the `serializer` option, 
+> this command will clear the directory that you have configured it to store in.
+>
+> It is recommended to setup a unique filesystem path or disk (via `config/filesystems.php`) or cache store 
+> (via `config/cache.php`) for Purify if you intended to clear the serialized definitions using this command.
 
 If you ever update the `definitions` configuration option, you must clear this HTMLPurifier cache.
 
@@ -395,3 +407,36 @@ key mentioned above), then you may reconfigure this in the new `serializer` conf
 ```
 
 You're all set!
+
+### Upgrading from v5 to v6
+
+In v6, the HTMLPurifier Serializer storage mechanism was updated for Laravel Vapour support, allowing 
+you to store the serialized HTMLPurifier definitions in a Redis cache, or an external filesystem.
+
+To upgrade from v5, install the latest version by running the below command in the root of your project:
+
+```bash
+composer require stevebauman/purify
+```
+
+Then, navigate into your published `config/purify.php` configuration file and 
+replace the `serializer` configuration option with the below:
+
+```diff
+-    'serializer' => storage_path('app/purify'),
+
++    'serializer' => [
++       'disk' => env('FILESYSTEM_DISK', 'local'),
++       'path' => 'purify',
++       'cache' => \Stevebauman\Purify\Cache\FilesystemDefinitionCache::class,
++    ],
++
++    // 'serializer' => [
++    //    'driver' => env('CACHE_DRIVER', 'file'),
++    //    'cache' => \Stevebauman\Purify\Cache\CacheDefinitionCache::class,
++    // ],
+```
+
+This will update the syntax used to control the serializer cache mechanism. You may now uncomment 
+the below `serializer` cache definition if you would like to use a Laravel Cache driver
+(such as Redis) to store the serialized definitions.
