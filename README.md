@@ -153,7 +153,7 @@ serialized `definitions` into the `serializer.cache` definition you have configu
 > If you have configured Purify to utilize the `FilesystemDefinitionCache` in the `serializer` option, 
 > this command will clear the directory that you have configured it to store in.
 >
-> It is recommended to setup a unique filesystem disk (via `config/filesystems.php`) or cache store 
+> It is recommended to setup a unique filesystem path or disk (via `config/filesystems.php`) or cache store 
 > (via `config/cache.php`) for Purify if you intended to clear the serialized definitions using this command.
 
 If you ever update the `definitions` configuration option, you must clear this HTMLPurifier cache.
