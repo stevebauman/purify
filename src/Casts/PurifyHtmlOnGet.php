@@ -20,9 +20,9 @@ class PurifyHtmlOnGet extends Caster implements CastsAttributes
     public function get($model, $key, $value, $attributes)
     {
         if (is_null($value)) {
-            return null;    
+            return null;
         }
-        
+
         return Purify::config($this->config)->clean($value);
     }
 
