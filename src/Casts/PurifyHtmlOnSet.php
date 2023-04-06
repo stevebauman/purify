@@ -15,7 +15,7 @@ class PurifyHtmlOnSet extends Caster implements CastsAttributes
      * @param mixed                               $value
      * @param array                               $attributes
      *
-     * @return string|array
+     * @return string|array|null
      */
     public function get($model, string $key, $value, array $attributes)
     {
@@ -30,10 +30,14 @@ class PurifyHtmlOnSet extends Caster implements CastsAttributes
      * @param mixed                               $value
      * @param array                               $attributes
      *
-     * @return array|string
+     * @return array|string|null
      */
     public function set($model, string $key, $value, array $attributes)
     {
+        if (is_null($value)) {
+            return null;
+        }
+
         return Purify::config($this->config)->clean($value);
     }
 }
