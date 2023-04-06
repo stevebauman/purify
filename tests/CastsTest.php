@@ -35,7 +35,7 @@ class CastsTest extends TestCase
         $this->assertEquals($this->testInput, $model->getAttributes()['body']);
         $this->assertEquals('<p>Test<span>bar</span></p>', $model->body);
     }
-    
+
     public function test_returns_null_on_get_when_value_is_null()
     {
         $model = new PurifyingDefaultOnGetModel();
@@ -67,7 +67,7 @@ class CastsTest extends TestCase
 
         $this->assertEquals('<p>Test<span>bar</span></p>', $model->getAttributes()['body']);
     }
-    
+
     public function test_sets_null_on_set_when_value_is_null()
     {
         $model = new PurifyingDefaultOnSetModel();
