@@ -34,7 +34,7 @@ class PurifyManager extends Manager
      *
      * @param string|array|null $config
      *
-     * @return mixed
+     * @return Purify
      *
      * @throws \InvalidArgumentException
      */
@@ -58,7 +58,7 @@ class PurifyManager extends Manager
      *
      * @param string|array|null $driver
      *
-     * @return mixed
+     * @return Purify
      *
      * @throws \InvalidArgumentException
      */
@@ -83,7 +83,7 @@ class PurifyManager extends Manager
      *
      * @param string|array $driver
      *
-     * @return mixed
+     * @return Purify
      *
      * @throws \InvalidArgumentException
      */
