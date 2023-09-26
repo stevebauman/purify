@@ -303,7 +303,7 @@ class CustomDefinition implements Definition
 ##### Basecamp Trix Definition
 
 Here's an example for customizing the definition in order to support Basecamp's Trix WYSIWYG editor
-(credit to [Antonio Primera](https://github.com/stevebauman/purify/issues/7)):
+(credit to [Antonio Primera](https://github.com/stevebauman/purify/issues/7) & [Daniel Sun](https://github.com/stevebauman/purify/issues/77)):
 
 ```php
 namespace App;
@@ -323,9 +323,12 @@ class TrixPurifierDefinitions implements Definition
     public static function apply(HTMLPurifier_HTMLDefinition $definition)
     {
         $definition->addElement('figure', 'Inline', 'Inline', 'Common');
-        $definition->addAttribute('figure', 'class', 'Text');
+        $definition->addAttribute('figure', 'class', 'Class');
+        $definition->addAttribute('figure', 'data-trix-attachment', 'Text');
+        $definition->addAttribute('figure', 'data-trix-attributes', 'Text');
+
         $definition->addElement('figcaption', 'Inline', 'Inline', 'Common');
-        $definition->addAttribute('figcaption', 'class', 'Text');
+        $definition->addAttribute('figcaption', 'class', 'Class');
         $definition->addAttribute('figcaption', 'data-trix-placeholder', 'Text');
 
         $definition->addAttribute('a', 'rel', 'Text');
