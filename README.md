@@ -9,10 +9,6 @@ A Laravel wrapper for <a href="https://github.com/ezyang/htmlpurifier" target="_
 <img src="https://img.shields.io/github/actions/workflow/status/stevebauman/purify/run-tests.yml?branch=master&style=flat-square"/>
 </a>
 
-<a href="https://scrutinizer-ci.com/g/stevebauman/purify/?branch=master" target="_blank">
-<img src="https://img.shields.io/scrutinizer/g/stevebauman/purify.svg?style=flat-square"/>
-</a>
-
 <a href="https://packagist.org/packages/stevebauman/purify" target="_blank">
 <img src="https://img.shields.io/packagist/v/stevebauman/purify.svg?style=flat-square"/>
 </a>
