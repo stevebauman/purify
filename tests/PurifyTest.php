@@ -2,9 +2,11 @@
 
 namespace Stevebauman\Purify\Tests;
 
+use HTMLPurifier_CSSDefinition;
 use HTMLPurifier_HTMLDefinition;
 use Illuminate\Support\Facades\File;
 use Stevebauman\Purify\Cache\CacheDefinitionCache;
+use Stevebauman\Purify\Definitions\CSSDefinition;
 use Stevebauman\Purify\Definitions\Definition;
 use Stevebauman\Purify\Facades\Purify;
 use Stevebauman\Purify\PurifyServiceProvider;
@@ -131,6 +133,37 @@ class PurifyTest extends TestCase
             Purify::config(['HTML.Allowed' => 'span[class]'])->clean('<span class="bar">Test</span>')
         );
     }
+
+    public function test_custom_css_definitions_are_applied()
+    {
+        $this->app['config']->set('purify.css-definitions', FooCSSDefinition::class);
+
+        $this->assertEquals(
+            '<p>Test</p>',
+            Purify::clean('<p style="text-align:left">Test</p>')
+        );
+
+        $this->assertEquals(
+            '<p>Test</p>',
+            Purify::clean('<p style="text-align:right">Test</p>')
+        );
+
+        $this->assertEquals(
+            '<p style="text-align:center;">Test</p>',
+            Purify::clean('<p style="text-align:center;">Test</p>')
+        );
+
+        $this->assertEquals(
+            '<p style="text-align:start;">Test</p>',
+            Purify::clean('<p style="text-align:start;">Test</p>')
+        );
+
+        $this->assertEquals(
+            '<p style="text-align:end;">Test</p>',
+            Purify::clean('<p style="text-align:end;">Test</p>')
+        );
+
+    }
 }
 
 class FooDefinition implements Definition
@@ -140,3 +173,15 @@ class FooDefinition implements Definition
         $definition->addAttribute('span', 'class', 'Enum#foo');
     }
 }
+
+class FooCSSDefinition implements CSSDefinition
+{
+    public static function apply(HTMLPurifier_CSSDefinition $definition)
+    {
+        $definition->info['text-align'] = new \HTMLPurifier_AttrDef_Enum(
+            array('center', 'start', 'end'),
+            false,
+        );
+    }
+}
+
