@@ -162,7 +162,6 @@ class PurifyTest extends TestCase
             '<p style="text-align:end;">Test</p>',
             Purify::clean('<p style="text-align:end;">Test</p>')
         );
-
     }
 }
 
@@ -184,4 +183,3 @@ class FooCSSDefinition implements CSSDefinition
         );
     }
 }
-
