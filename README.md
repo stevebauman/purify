@@ -373,7 +373,7 @@ class CustomCSSDefinition implements CSSDefinition
     {
         // Customize the CSS purifier definition.
         $definition->info['text-align'] = new \HTMLPurifier_AttrDef_Enum(
-            array('right', 'left', 'center', 'start', 'end'),
+            ['right', 'left', 'center', 'start', 'end'],
             false,
         );
     }

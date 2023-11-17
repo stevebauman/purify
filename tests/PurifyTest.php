@@ -179,7 +179,7 @@ class FooCSSDefinition implements CSSDefinition
     public static function apply(HTMLPurifier_CSSDefinition $definition)
     {
         $definition->info['text-align'] = new \HTMLPurifier_AttrDef_Enum(
-            array('center', 'start', 'end'),
+            ['center', 'start', 'end'],
             false,
         );
     }
