@@ -24,6 +24,7 @@ class PurifyServiceProvider extends ServiceProvider
                 // We must autoload the cache manually due to an issue
                 // with the root HTMLPurifier repository. Once this
                 // issue has been resolved, we may remove this.
+                // See: https://github.com/ezyang/htmlpurifier/pull/364
                 spl_autoload_call($cache);
 
                 HTMLPurifier_DefinitionCacheFactory::instance()->register($cache, $cache);
