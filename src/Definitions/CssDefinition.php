@@ -4,7 +4,7 @@ namespace Stevebauman\Purify\Definitions;
 
 use HTMLPurifier_CSSDefinition;
 
-interface CSSDefinition
+interface CssDefinition
 {
     /**
      * Apply rules to the CSS Purifier definition.

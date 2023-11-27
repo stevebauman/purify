@@ -79,7 +79,7 @@ return [
     | HTMLPurifier. When specifying a custom class, make sure it implements
     | the interface:
     |
-    |   \Stevebauman\Purify\Definitions\CSSDefinition
+    |   \Stevebauman\Purify\Definitions\CssDefinition
     |
     | Note that these definitions are applied to every Purifier instance.
     |

@@ -352,15 +352,15 @@ inline styles you allow and their properties and values. This can help fill in
 missing values for properties such as text-align, which by default is missing start
 and end values. You can do this by creating a CSS definition.
 
-To create your own CSS definition, create a new class and have it implement `CSSDefinition`:
+To create your own CSS definition, create a new class and have it implement `CssDefinition`:
 
 ```php
 namespace App;
 
 use HTMLPurifier_CSSDefinition;
-use Stevebauman\Purify\Definitions\CSSDefinition;
+use Stevebauman\Purify\Definitions\CssDefinition;
 
-class CustomCSSDefinition implements CSSDefinition
+class CustomCSSDefinition implements CssDefinition
 {
     /**
      * Apply rules to the CSS Purifier definition.
@@ -385,7 +385,7 @@ Then, reference this class in the `config/purify.php` file in the `css-definitio
 ```php
 // config/purify.php
 
-'css-definitions' => \App\CustomCSSDefinition::class,
+'css-definitions' => \App\CustomCssDefinition::class,
 ```
 
 See the class HTMLPurifier_CSSDefinition in the HTMLPurifier library for other examples of what can be changed.

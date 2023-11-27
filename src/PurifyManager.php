@@ -6,7 +6,7 @@ use HTMLPurifier_Config;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Manager;
 use InvalidArgumentException;
-use Stevebauman\Purify\Definitions\CSSDefinition;
+use Stevebauman\Purify\Definitions\CssDefinition;
 use Stevebauman\Purify\Definitions\Definition;
 
 class PurifyManager extends Manager
@@ -205,7 +205,7 @@ class PurifyManager extends Manager
         if ($definition = $htmlConfig->getCSSDefinition()) {
             $definitionsClass = $this->config->get('purify.css-definitions');
 
-            if ($definitionsClass && is_a($definitionsClass, CSSDefinition::class, true)) {
+            if ($definitionsClass && is_a($definitionsClass, CssDefinition::class, true)) {
                 $definitionsClass::apply($definition);
             }
         }

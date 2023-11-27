@@ -6,7 +6,7 @@ use HTMLPurifier_CSSDefinition;
 use HTMLPurifier_HTMLDefinition;
 use Illuminate\Support\Facades\File;
 use Stevebauman\Purify\Cache\CacheDefinitionCache;
-use Stevebauman\Purify\Definitions\CSSDefinition;
+use Stevebauman\Purify\Definitions\CssDefinition;
 use Stevebauman\Purify\Definitions\Definition;
 use Stevebauman\Purify\Facades\Purify;
 use Stevebauman\Purify\PurifyServiceProvider;
@@ -136,7 +136,7 @@ class PurifyTest extends TestCase
 
     public function test_custom_css_definitions_are_applied()
     {
-        $this->app['config']->set('purify.css-definitions', FooCSSDefinition::class);
+        $this->app['config']->set('purify.css-definitions', FooCssDefinition::class);
 
         $this->assertEquals(
             '<p>Test</p>',
@@ -173,7 +173,7 @@ class FooDefinition implements Definition
     }
 }
 
-class FooCSSDefinition implements CSSDefinition
+class FooCssDefinition implements CssDefinition
 {
     public static function apply(HTMLPurifier_CSSDefinition $definition)
     {
