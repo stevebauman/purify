@@ -360,7 +360,7 @@ namespace App;
 use HTMLPurifier_CSSDefinition;
 use Stevebauman\Purify\Definitions\CssDefinition;
 
-class CustomCSSDefinition implements CssDefinition
+class CustomCssDefinition implements CssDefinition
 {
     /**
      * Apply rules to the CSS Purifier definition.
