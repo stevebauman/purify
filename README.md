@@ -344,6 +344,52 @@ class TrixPurifierDefinitions implements Definition
 }
 ```
 
+
+#### Custom CSS definitions
+
+It's possible to override the CSS definitions, this allows you to customize what
+inline styles you allow and their properties and values. This can help fill in
+missing values for properties such as text-align, which by default is missing start
+and end values. You can do this by creating a CSS definition.
+
+To create your own CSS definition, create a new class and have it implement `CssDefinition`:
+
+```php
+namespace App;
+
+use HTMLPurifier_CSSDefinition;
+use Stevebauman\Purify\Definitions\CssDefinition;
+
+class CustomCssDefinition implements CssDefinition
+{
+    /**
+     * Apply rules to the CSS Purifier definition.
+     *
+     * @param HTMLPurifier_CSSDefinition $definition
+     *
+     * @return void
+     */
+    public static function apply(HTMLPurifier_CSSDefinition $definition)
+    {
+        // Customize the CSS purifier definition.
+        $definition->info['text-align'] = new \HTMLPurifier_AttrDef_Enum(
+            ['right', 'left', 'center', 'start', 'end'],
+            false,
+        );
+    }
+}
+```
+
+Then, reference this class in the `config/purify.php` file in the `css-definitions` key:
+
+```php
+// config/purify.php
+
+'css-definitions' => \App\CustomCssDefinition::class,
+```
+
+See the class HTMLPurifier_CSSDefinition in the HTMLPurifier library for other examples of what can be changed.
+
 ### Upgrading from v4 to v5
 
 To upgrade from v4, install the latest version by running the below command in the root of your project:
