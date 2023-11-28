@@ -72,6 +72,26 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | HTMLPurifier CSS definitions
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify a class that augments the CSS definitions used by
+    | HTMLPurifier. When specifying a custom class, make sure it implements
+    | the interface:
+    |
+    |   \Stevebauman\Purify\Definitions\CssDefinition
+    |
+    | Note that these definitions are applied to every Purifier instance.
+    |
+    | CSS should be extending $definition->info['css-attribute'] = values
+    | See HTMLPurifier_CSSDefinition for further explanation
+    |
+    */
+
+    'css-definitions' => null,
+
+    /*
+    |--------------------------------------------------------------------------
     | Serializer
     |--------------------------------------------------------------------------
     |
