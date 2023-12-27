@@ -48,7 +48,7 @@ class CacheDefinitionCache extends HTMLPurifier_DefinitionCache
             return false;
         }
 
-        return $this->cache->put($key, serialize($def));
+        return $this->cache->put($key, $this->encode($def));
     }
 
     /**
@@ -67,7 +67,7 @@ class CacheDefinitionCache extends HTMLPurifier_DefinitionCache
 
         $key = $this->generateKey($config);
 
-        return $this->cache->put($key, serialize($def));
+        return $this->cache->put($key, $this->encode($def));
     }
 
     /**
@@ -90,7 +90,7 @@ class CacheDefinitionCache extends HTMLPurifier_DefinitionCache
             return false;
         }
 
-        return $this->cache->put($key, serialize($def));
+        return $this->cache->put($key, $this->encode($def));
     }
 
     /**
@@ -98,7 +98,7 @@ class CacheDefinitionCache extends HTMLPurifier_DefinitionCache
      *
      * @param \HTMLPurifier_Config $config
      *
-     * @return bool|\HTMLPurifier_Config
+     * @return bool|\HTMLPurifier_Definition
      */
     public function get($config)
     {
@@ -108,7 +108,7 @@ class CacheDefinitionCache extends HTMLPurifier_DefinitionCache
             return false;
         }
 
-        return unserialize($this->cache->get($key));
+        return $this->decode($this->cache->get($key));
     }
 
     /**
@@ -157,5 +157,34 @@ class CacheDefinitionCache extends HTMLPurifier_DefinitionCache
         }
 
         return true;
+    }
+
+    /**
+     * Encode the definition for storage.
+     *
+     * @param \HTMLPurifier_Definition $def
+     *
+     * @return string
+     */
+    protected function encode($def)
+    {
+        return base64_encode(serialize($def));
+    }
+
+    /**
+     * Decode the definition from storage.
+     *
+     * @param string $def
+     *
+     * @return \HTMLPurifier_Definition
+     */
+    protected function decode($def)
+    {
+        // Backwards compatibility with previously cached definitions.
+        if (! $encoded = base64_decode($def)) {
+            return unserialize($def);
+        }
+
+        return unserialize($encoded);
     }
 }
