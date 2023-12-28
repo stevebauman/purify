@@ -73,7 +73,7 @@ class PurifyManager extends Manager
 
             $driver = md5(serialize($driver));
 
-            $this->config->set("purify.configs.{$driver}", $config);
+            $this->config->set("purify.configs.$driver", $config);
         }
 
         return parent::driver($driver);
@@ -113,7 +113,7 @@ class PurifyManager extends Manager
      */
     protected function resolveConfig($name)
     {
-        return $this->config->get("purify.configs.{$name}");
+        return $this->config->get("purify.configs.$name");
     }
 
     /**
