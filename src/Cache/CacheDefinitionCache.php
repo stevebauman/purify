@@ -33,7 +33,7 @@ class CacheDefinitionCache extends HTMLPurifier_DefinitionCache
      * Adds a definition object to the cache.
      *
      * @param HTMLPurifier_Definition $def
-     * @param \HTMLPurifier_Config $config
+     * @param \HTMLPurifier_Config    $config
      *
      * @return bool|void
      */
@@ -56,7 +56,7 @@ class CacheDefinitionCache extends HTMLPurifier_DefinitionCache
      * Unconditionally saves a definition object to the cache.
      *
      * @param HTMLPurifier_Definition $def
-     * @param \HTMLPurifier_Config $config
+     * @param \HTMLPurifier_Config    $config
      *
      * @return bool|void
      */
@@ -75,7 +75,7 @@ class CacheDefinitionCache extends HTMLPurifier_DefinitionCache
      * Replace an object in the cache.
      *
      * @param HTMLPurifier_Definition $def
-     * @param \HTMLPurifier_Config $config
+     * @param \HTMLPurifier_Config    $config
      *
      * @return bool|void
      */
