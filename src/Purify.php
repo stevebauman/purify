@@ -37,4 +37,14 @@ class Purify
             ? $this->purifier->purifyArray($input)
             : $this->purifier->purify($input);
     }
+
+    /**
+     * Get the underlying HTML Purifier instance.
+     *
+     * @return HTMLPurifier
+     */
+    public function getPurifier()
+    {
+        return $this->purifier;
+    }
 }
