@@ -141,7 +141,7 @@ http://htmlpurifier.org/live/configdoc/plain.html
 After running Purify once, [HTMLPurifier](https://github.com/ezyang/htmlpurifier) will auto-cache your
 serialized `definitions` into the `serializer.cache` definition you have configured in `config/purify.php`.
 
-> **Important**: 
+> [!Important]
 >
 > If you have configured Purify to utilize the `CacheDefinitionCache` in the `serializer` option, 
 > this command will issue a `Cache::clear()` on the cache driver you have configured it to use.
@@ -174,7 +174,9 @@ This will cause your definitions to be serialized upon each application request.
 
 This is especially useful when debugging or tweaking definition files to see immediate results.
 
-> **Important**: Caching is recommended in production environments.
+> [!Important]
+>
+> Caching is recommended in production environments.
 
 ### Practices
 
