@@ -5,21 +5,10 @@ A Laravel wrapper for <a href="https://github.com/ezyang/htmlpurifier" target="_
 </p>
 
 <p align="center">
-<a href="https://github.com/stevebauman/purify/actions" target="_blank">
-<img src="https://img.shields.io/github/actions/workflow/status/stevebauman/purify/run-tests.yml?branch=master&style=flat-square"/>
-</a>
-
-<a href="https://packagist.org/packages/stevebauman/purify" target="_blank">
-<img src="https://img.shields.io/packagist/v/stevebauman/purify.svg?style=flat-square"/>
-</a>
-
-<a href="https://packagist.org/packages/stevebauman/purify" target="_blank">
-<img src="https://img.shields.io/packagist/dt/stevebauman/purify.svg?style=flat-square"/>
-</a>
-
-<a href="https://packagist.org/packages/stevebauman/purify" target="_blank">
-<img src="https://img.shields.io/packagist/l/stevebauman/purify.svg?style=flat-square"/>
-</a>
+<a href="https://github.com/stevebauman/purify/actions" target="_blank"><img src="https://img.shields.io/github/actions/workflow/status/stevebauman/purify/run-tests.yml?branch=master&style=flat-square"/></a>
+<a href="https://packagist.org/packages/stevebauman/purify" target="_blank"><img src="https://img.shields.io/packagist/v/stevebauman/purify.svg?style=flat-square"/></a>
+<a href="https://packagist.org/packages/stevebauman/purify" target="_blank"><img src="https://img.shields.io/packagist/dt/stevebauman/purify.svg?style=flat-square"/></a>
+<a href="https://packagist.org/packages/stevebauman/purify" target="_blank"><img src="https://img.shields.io/packagist/l/stevebauman/purify.svg?style=flat-square"/></a>
 </p>
 
 ### Index
