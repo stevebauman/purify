@@ -17,7 +17,9 @@ class PurifyServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/purify.php', 'purify');
 
-        $this->commands(ClearCommand::class);
+        if (! config('purify.disable_clear_command', false)) {
+            $this->commands(ClearCommand::class);
+        }
 
         $this->app->singleton('purify', function ($app) {
             if ($cache = config('purify.serializer.cache')) {

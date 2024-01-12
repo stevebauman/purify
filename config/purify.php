@@ -112,4 +112,25 @@ return [
     //    'cache' => \Stevebauman\Purify\Cache\FilesystemDefinitionCache::class,
     // ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Disable 'purify:clear' command
+    |--------------------------------------------------------------------------
+    |
+    | Here you may enable or disable the 'purify:clear' command.
+    |
+    | If you have configured Purify to utilize the CacheDefinitionCache in the serializer
+    | option, this command issues a Cache::clear() on the cache driver you have configured
+    | it to use.
+    |
+    | If you have configured Purify to utilize the FilesystemDefinitionCache in the serializer
+    | option, this command will clear the directory that you have configured it to store in.
+    | 
+    | You may wish to disable this command if you are not using a unique filesystem path or disk
+    | (via config/filesystems.php) or cache store (via config/cache.php) for Purify.
+    |
+    */
+
+    'disable_clear_command' => false,  
+
 ];
