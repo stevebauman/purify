@@ -79,9 +79,9 @@ var_dump($cleaned);
 
 ##### Dynamic Configuration
 
-Need a different configuration for a single input? Pass in a configuration array into the second parameter:
+Need a different configuration for a single input? Pass in a configuration array to the `config` method:
 
-> **Note**: Configuration passed into the second parameter
+> **Note**: Configuration passed into the config method
 > is **not** merged with your default configuration.
 
 ```php
